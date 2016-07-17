@@ -1,6 +1,8 @@
 # hyperborder - extension for HyperTerm
 adds a gradient border to the hyperterm editor
 
+![](https://cldup.com/pL94ODfQNP.png)
+
 ## Installation
 add it to your ~/.hyperterm.js
 
