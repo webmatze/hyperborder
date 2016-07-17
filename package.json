@@ -1,0 +1,8 @@
+{
+  "name": "hyperborder",
+  "version": "0.0.1",
+  "author": "Mathias Karstädt",
+  "keywords": ["hyperterm"],
+  "description": "Extension for border effects in hyperterm",
+  "dependencies": {}
+}
