@@ -18,6 +18,8 @@ exports.decorateConfig = (config) => {
               top: 4px;
               left: 4px;
               right: 4px;
+              border-top-left-radius: 4px;
+              border-top-right-radius: 4px;
             }
             .hyperterm_main .terms_terms {
               border-radius: 0 0 4px 4px;
