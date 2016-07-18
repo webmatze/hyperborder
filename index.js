@@ -17,28 +17,28 @@ exports.decorateConfig = (config) => {
       .hyperterm_main {
         border-width: 0px;
       }
-      .header_header {
+      .hyperterm_main .header_header {
         top: ${hyperborderConfig.borderWidth};
         left: ${hyperborderConfig.borderWidth};
         right: ${hyperborderConfig.borderWidth};
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
       }
-      .tabs_list {
+      .hyperterm_main .tabs_list {
         border-bottom-color: ${config.borderColor};
       }
-      .tab_active .tab_text {
+      .hyperterm_main .tab_active .tab_text {
         border-left-color: ${config.borderColor};
         border-right-color: ${config.borderColor};
       }
-      .terms_terms {
+      .hyperterm_main .terms_terms {
         border-radius: 0 0 4px 4px;
         background-color: ${config.backgroundColor};
         bottom: ${hyperborderConfig.borderWidth};
         left: ${hyperborderConfig.borderWidth};
         right: ${hyperborderConfig.borderWidth};
       }
-      .terms_term {
+      .hyperterm_main .terms_term {
         margin-top: ${hyperborderConfig.borderWidth};
       }
     `
