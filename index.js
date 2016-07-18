@@ -33,7 +33,7 @@ exports.decorateConfig = (config) => {
       }
       .terms_terms {
         border-radius: 0 0 4px 4px;
-        background-color: black;
+        background-color: ${config.backgroundColor};
         bottom: ${hyperborderConfig.borderWidth};
         left: ${hyperborderConfig.borderWidth};
         right: ${hyperborderConfig.borderWidth};
