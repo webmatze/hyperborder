@@ -1,7 +1,6 @@
 exports.decorateConfig = (config) => {
   var hyperborderConfig = Object.assign({
-    borderWidth: '4px',
-    tabsBorderColor: 'rgba(255,255,255, .5)'
+    borderWidth: '4px'
   }, config.hyperborder);
   return Object.assign({}, config, {
     borderColor: '',
@@ -26,11 +25,11 @@ exports.decorateConfig = (config) => {
         border-top-right-radius: 4px;
       }
       .tabs_list {
-        border-bottom-color: ${hyperborderConfig.tabsBorderColor};
+        border-bottom-color: ${config.borderColor};
       }
       .tab_active .tab_text {
-        border-left-color: ${hyperborderConfig.tabsBorderColor};
-        border-right-color: ${hyperborderConfig.tabsBorderColor};
+        border-left-color: ${config.borderColor};
+        border-right-color: ${config.borderColor};
       }
       .terms_terms {
         border-radius: 0 0 4px 4px;
