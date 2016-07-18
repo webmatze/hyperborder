@@ -4,7 +4,7 @@ exports.decorateConfig = (config) => {
     css: `
       html {
         height: 100%;
-        background-image: linear-gradient(#fc1da7, #fba506);
+        background-image: linear-gradient(#fba506, #fc1da7);
         border-radius: ${borderWidth};
       }
       body {
@@ -13,7 +13,7 @@ exports.decorateConfig = (config) => {
         bottom: ${borderWidth};
         left: ${borderWidth};
         right: ${borderWidth};
-        border-radius: ${borderWidth}
+        border-radius: ${borderWidth};
       }
       ${config.css || ''}
       #mount {
@@ -29,14 +29,17 @@ exports.decorateConfig = (config) => {
         top: ${borderWidth};
         left: ${borderWidth};
         right: ${borderWidth};
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
       }
       .hyperterm_main .tabs_list {
         border-bottom-color: ${config.borderColor};
+        border-top-left-radius: ${borderWidth};
+        border-top-right-radius: ${borderWidth};
+      }
+      .hyperterm_main .tab_tab:last-child {
+        border-top-right-radius: ${borderWidth}
       }
       .hyperterm_main .terms_terms {
-        border-radius: 0 0 4px 4px;
+        border-radius: 0 0 ${borderWidth} ${borderWidth};
         bottom: ${borderWidth};
         left: ${borderWidth};
         right: ${borderWidth};
