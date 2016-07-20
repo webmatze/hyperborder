@@ -1,10 +1,11 @@
 exports.decorateConfig = (config) => {
-  var borderWidth = '4px';
+  var hyperObj = config.hyperObj;
+  var borderWidth = config.hyperBorderWidth;
   return Object.assign({}, config, {
     css: `
       html {
         height: 100%;
-        background-image: linear-gradient(#fba506, #fc1da7);
+        background-image: linear-gradient(${config.hyperBorderColors[0]} , ${config.hyperBorderColors[1]});
         border-radius: ${borderWidth};
       }
       body {
