@@ -1,5 +1,5 @@
 exports.decorateConfig = (config) => {
-  var hyperObj = config.hyperObj;
+  
   var borderWidth = config.hyperBorderWidth;
   return Object.assign({}, config, {
     css: `
