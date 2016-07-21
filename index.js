@@ -1,7 +1,9 @@
 module.exports.decorateConfig = (config) => {
-  var configObj = config.hyperBorder;
-  var colors = (configObj.borderColors) ? `${configObj.borderColors[0]} , ${configObj.borderColors[1]}`
- : "#fba506, #fc1da7";
+  var configObj = Object.assign({
+    borderWidth: '4px',
+    borderColors: ['#fc1da7', '#fba506']
+  }, config.hyperBorder);
+  var colors = configObj.borderColors.join(',');
   var borderWidth = configObj.borderWidth;
   return Object.assign({}, config, {
     css: `
