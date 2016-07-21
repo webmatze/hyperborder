@@ -1,11 +1,13 @@
-exports.decorateConfig = (config) => {
-  
-  var borderWidth = config.hyperBorderWidth;
+module.exports.decorateConfig = (config) => {
+  var configObj = config.hyperBorder;
+  var colors = (configObj.borderColors) ? `${configObj.borderColors[0]} , ${configObj.borderColors[1]}`
+ : "#fba506, #fc1da7";
+  var borderWidth = configObj.borderWidth;
   return Object.assign({}, config, {
     css: `
       html {
         height: 100%;
-        background-image: linear-gradient(${config.hyperBorderColors[0]} , ${config.hyperBorderColors[1]});
+        background-image: linear-gradient(${colors});
         border-radius: ${borderWidth};
       }
       body {
