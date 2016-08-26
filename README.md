@@ -33,5 +33,22 @@ module.exports = {
 }
 ```
 
+In addition, you can set `borderColors` to `'random'` (string value) instead of an array of objects:
+
+```javascript
+module.exports = {
+  config: {
+    ...
+      hyperBorder: {
+        borderColors: 'random',
+        borderWidth: '8px'
+      }
+    ...
+  }
+}
+```
+
+By that, every newly opened HyperTerm window will have a different colored border.
+
 ## download HyperTerm here
 https://hyperterm.org/
