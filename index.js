@@ -3,6 +3,19 @@ module.exports.decorateConfig = (config) => {
     borderWidth: '4px',
     borderColors: ['#fc1da7', '#fba506']
   }, config.hyperBorder);
+
+  if(typeof configObj.borderColors === 'string'
+  && configObj.borderColors.toLowerCase() === 'random') {
+    var randomColor = function() {
+      return '#'+Math.floor(Math.random()*16777215).toString(16);
+    };
+
+    configObj.borderColors = [
+      randomColor(),
+      randomColor()
+    ];
+  }
+
   var colors = configObj.borderColors.join(',');
   var borderWidth = configObj.borderWidth;
   return Object.assign({}, config, {
