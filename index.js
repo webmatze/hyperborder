@@ -1,22 +1,20 @@
+const randomColor = ()  => '#'+Math.floor(Math.random()*16777215).toString(16);
+const getColor = (input) => input.toLowerCase() === 'random' ? randomColor() : input;
+
+const getBorderColors = (colors = 'random') => {
+  colors = [].concat(colors) // ensure colors is an array
+             .map(getColor);  // before mapping
+
+  return colors.length < 2 ? colors.concat(colors[0]) : colors;
+}
+
 module.exports.decorateConfig = (config) => {
   var configObj = Object.assign({
     borderWidth: '4px',
     borderColors: ['#fc1da7', '#fba506']
   }, config.hyperBorder);
 
-  if(typeof configObj.borderColors === 'string'
-  && configObj.borderColors.toLowerCase() === 'random') {
-    var randomColor = function() {
-      return '#'+Math.floor(Math.random()*16777215).toString(16);
-    };
-
-    configObj.borderColors = [
-      randomColor(),
-      randomColor()
-    ];
-  }
-
-  var colors = configObj.borderColors.join(',');
+  var colors = getBorderColors(configObj.borderColors).join(',');
   var borderWidth = configObj.borderWidth;
   return Object.assign({}, config, {
     css: `
