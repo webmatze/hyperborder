@@ -5,6 +5,7 @@ const getBorderColors = (colors = 'random') => {
   colors = [].concat(colors) // ensure colors is an array
              .map(getColor);  // before mapping
 
+  // hack to repeat color for a single color border and still use 'linear-gradient'
   return colors.length < 2 ? colors.concat(colors[0]) : colors;
 }
 
