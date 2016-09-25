@@ -16,6 +16,7 @@ module.exports = {
 then just restart your HyperTerm app or go to the menu 'Plugins / Update All Now'
 
 ## Configuration
+### Set Border Colors And Width
 It is now possible to change the gradient colors and the border width.
 
 Just add the following to your `.hyperterm.js`:
@@ -33,6 +34,8 @@ module.exports = {
 }
 ```
 
+### Set Border Colors To Random Colors
+
 In addition, you can set any color value to `'random'` (string value):
 
 ```javascript
@@ -49,6 +52,22 @@ module.exports = {
 ```
 
 Then every newly opened HyperTerm window will have a different colored border.
+
+### Animate Border Colors
+You like some animations? Than try this:
+
+```javascript
+module.exports = {
+  config: {
+    ...
+    hyperBorder: {
+      animate: true,
+      ...
+    }
+    ...
+  }
+}
+```
 
 ## download HyperTerm here
 https://hyperterm.org/

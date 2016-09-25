@@ -11,18 +11,29 @@ const getBorderColors = (colors = 'random') => {
 
 module.exports.decorateConfig = (config) => {
   var configObj = Object.assign({
+    animate: false,
     borderWidth: '4px',
     borderColors: ['#fc1da7', '#fba506']
   }, config.hyperBorder);
 
   var colors = getBorderColors(configObj.borderColors).join(',');
   var borderWidth = configObj.borderWidth;
+  var animateStyles = `
+    background-size: 800% 800%;
+    animation: AnimationName 16s ease infinite;
+  `
   return Object.assign({}, config, {
     css: `
       html {
         height: 100%;
-        background-image: linear-gradient(${colors});
+        background: linear-gradient(${ configObj.animate ? '269deg' : '180deg' }, ${colors});
+        ${ configObj.animate ? animateStyles : '' }
         border-radius: ${borderWidth};
+      }
+      @keyframes AnimationName {
+          0%{background-position:0% 50%}
+          50%{background-position:100% 50%}
+          100%{background-position:0% 50%}
       }
       body {
         position: absolute;
