@@ -47,6 +47,7 @@ module.exports.decorateConfig = (config) => {
       #mount {
       }
       .hyperterm_main {
+        background-color: ${config.backgroundColor || '#000'};
         top: ${borderWidth};
         bottom: ${borderWidth};
         left: ${borderWidth};
