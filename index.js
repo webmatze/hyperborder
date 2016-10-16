@@ -46,7 +46,7 @@ module.exports.decorateConfig = (config) => {
       ${config.css || ''}
       #mount {
       }
-      .hyperterm_main {
+      .hyper_main {
         background-color: ${config.backgroundColor || '#000'};
         top: ${borderWidth};
         bottom: ${borderWidth};
@@ -54,26 +54,26 @@ module.exports.decorateConfig = (config) => {
         right: ${borderWidth};
         border-width: 0px;
       }
-      .hyperterm_main .header_header {
+      .hyper_main .header_header {
         top: ${borderWidth};
         left: ${borderWidth};
         right: ${borderWidth};
       }
-      .hyperterm_main .tabs_list {
+      .hyper_main .tabs_list {
         border-bottom-color: ${config.borderColor};
         border-top-left-radius: ${borderWidth};
         border-top-right-radius: ${borderWidth};
       }
-      .hyperterm_main .tab_tab:last-child {
+      .hyper_main .tab_tab:last-child {
         border-top-right-radius: ${borderWidth}
       }
-      .hyperterm_main .terms_terms {
+      .hyper_main .terms_terms {
         border-radius: 0 0 ${borderWidth} ${borderWidth};
         bottom: ${borderWidth};
         left: ${borderWidth};
         right: ${borderWidth};
       }
-      .hyperterm_main .terms_term {
+      .hyper_main .terms_term {
         margin-top: ${borderWidth};
       }
     `
