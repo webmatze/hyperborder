@@ -13,7 +13,8 @@ module.exports.decorateConfig = (config) => {
   var configObj = Object.assign({
     animate: false,
     borderWidth: '4px',
-    borderColors: ['#fc1da7', '#fba506']
+    borderColors: ['#fc1da7', '#fba506'],
+    borderAngle: '180deg'
   }, config.hyperBorder);
 
   var colors = getBorderColors(configObj.borderColors).join(',');
@@ -26,7 +27,7 @@ module.exports.decorateConfig = (config) => {
     css: `
       html {
         height: 100%;
-        background: linear-gradient(${ configObj.animate ? '269deg' : '180deg' }, ${colors});
+        background: linear-gradient(${ configObj.animate ? '269deg' : configObj.borderAngle }, ${colors});
         ${ configObj.animate ? animateStyles : '' }
         border-radius: ${borderWidth};
       }
