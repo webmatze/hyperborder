@@ -54,7 +54,7 @@ module.exports = {
 Then every newly opened HyperTerm window will have a different colored border.
 
 ### Animate Border Colors
-You like some animations? Than try this:
+You like some animations? Then try this:
 
 ```javascript
 module.exports = {
@@ -62,6 +62,22 @@ module.exports = {
     ...
     hyperBorder: {
       animate: true,
+      ...
+    }
+    ...
+  }
+}
+```
+
+## Angled Gradients
+Because we use CSS3's `linear-gradient`, we're able to specify angles at which to create the radius. Set your own angle like this: 
+
+```javascript
+module.exports = {
+  config: {
+    ...
+    hyperBorder: {
+      borderAngle: '180deg',
       ...
     }
     ...
