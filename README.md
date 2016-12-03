@@ -1,10 +1,10 @@
-# hyperborder - extension for HyperTerm
-adds a gradient border to the hyperterm editor
+# hyperborder - extension for Hyper
+adds a gradient border to the `Hyper` terminal
 
 ![](https://cldup.com/pL94ODfQNP.png)
 
 ## Installation
-add it to plugins in your `~/.hyperterm.js` configuration
+add it to plugins in your `~/.hyper.js` configuration
 
 ````
 module.exports = {
@@ -13,13 +13,13 @@ module.exports = {
   ...
 }
 ````
-then just restart your HyperTerm app or go to the menu 'Plugins / Update All Now'
+then just restart `Hyper` app or go to the menu 'Plugins / Update All Now'
 
 ## Configuration
 ### Set Border Colors And Width
 It is now possible to change the gradient colors and the border width.
 
-Just add the following to your `.hyperterm.js`:
+Just add the following to your `.hyper.js`:
 
 ```javascript
 module.exports = {
@@ -51,7 +51,7 @@ module.exports = {
 }
 ```
 
-Then every newly opened HyperTerm window will have a different colored border.
+Then every newly opened `Hyper` terminal window will have a different colored border.
 
 ### Animate Border Colors
 You like some animations? Then try this:
@@ -69,8 +69,8 @@ module.exports = {
 }
 ```
 
-## Angled Gradients
-Because we use CSS3's `linear-gradient`, we're able to specify angles at which to create the radius. Set your own angle like this: 
+### Angled Gradients
+Because we use CSS3's `linear-gradient`, we're able to specify angles at which to create the radius. Set your own angle like this:
 
 ```javascript
 module.exports = {
@@ -85,5 +85,5 @@ module.exports = {
 }
 ```
 
-## download HyperTerm here
-https://hyperterm.org/
+## Download Hyper here
+https://hyper.is/
