@@ -30,6 +30,7 @@ module.exports.decorateConfig = (config) => {
         background: linear-gradient(${ configObj.animate ? '269deg' : configObj.borderAngle }, ${colors});
         ${ configObj.animate ? animateStyles : '' }
         border-radius: ${borderWidth};
+        overflow: hidden;
       }
       @keyframes AnimationName {
           0%{background-position:0% 50%}
