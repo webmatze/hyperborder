@@ -6,5 +6,9 @@
     "hyper hyperterm hyperborder terminal"
   ],
   "description": "Extension to add border effects to the Hyper terminal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webmatze/hyperborder.git"
+  },
   "dependencies": {}
 }
