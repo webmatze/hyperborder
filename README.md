@@ -34,6 +34,8 @@ module.exports = {
 }
 ```
 
+Note that you can specify as many colors as you want in the `borderColors` config property.
+
 ### Set Border Colors To Random Colors
 
 In addition, you can set any color value to `'random'` (string value):
@@ -62,6 +64,23 @@ module.exports = {
     ...
     hyperBorder: {
       animate: true,
+      ...
+    }
+    ...
+  }
+}
+```
+
+To change the speed of animation, specify an object with a `duration` property:
+
+```javascript
+module.exports = {
+  config: {
+    ...
+    hyperBorder: {
+      animate: {
+        duration: '1s';   // default is 16s
+      },
       ...
     }
     ...
