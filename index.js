@@ -48,8 +48,9 @@ module.exports.decorateConfig = (config) => {
   let borderWidth = configObj.borderWidth;
   let animateStyles = `
     background-size: 800% 800%;
-    animation: AnimationName 16s ease infinite;
-  `
+    animation: hyperBorderAnimation ${configObj.animate.duration || '16s'} ease infinite;
+  `;
+
   return Object.assign({}, config, {
     css: `
       html {
@@ -68,7 +69,7 @@ module.exports.decorateConfig = (config) => {
       html.blurred.elevated {
         background: linear-gradient(${ configObj.animate ? '269deg' : configObj.borderAngle }, ${blurredAdminColors});
       }
-      @keyframes AnimationName {
+      @keyframes hyperBorderAnimation {
           0%{background-position:0% 50%}
           50%{background-position:100% 50%}
           100%{background-position:0% 50%}

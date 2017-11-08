@@ -18,18 +18,13 @@ then just restart `Hyper` app or go to the menu 'Plugins / Update All Now'
 ## Configuration
 The following settings can be configured by adding a `hyperBorder` section in your `.hyper.js` `config` section:
 
-* `borderWidth`: string
-  * How thick the borders should be
-* `borderColors`: string, string[]
-  * The color of the borders
-* `adminBorderColors`: string, string[]
-  * The colors of the borders for an admin/elevated window
-  * This follows the precedence  of `adminBorderColors` > `borderColors` > defaultColors
-* `blurredColors`: string, string[]
-  * The colors of the borders when the window isn't active
-* `blurredAdminColors`: string, string[]
-  * The colors of the borders when the admin/elevated window isn't active
-  * This follows the precedence of `blurredAdminColors` > `blurredColors` > `adminBorderColors` > `borderColors` > defaultColors
+| Setting              | Type                 | Description                                            |
+|----------------------|----------------------|--------------------------------------------------------|
+| `borderWidth`        | `string`             | CSS string for how thick the borders should be         |
+| `borderColors`       | `string`, `string[]` | The color(s) for the border                            |
+| `adminBorderColors`  | `string`, `string[]` | The color(s) for the border for an admin/elevated window. This follows the precedence  of `adminBorderColors` > `borderColors` > defaultColors                                    |
+| `blurredColors`      | `string`, `string[]` | The colors of the borders when the window isn't active |
+| `blurredAdminColors` | `string`, `string[]` | The colors of the borders when the admin/elevated window isn't active. This follows the precedence of `blurredAdminColors` > `blurredColors` > `adminBorderColors` > `borderColors` > defaultColors |
 
 ### EXAMPLE: Set Border Colors And Width
 
@@ -74,6 +69,23 @@ module.exports = {
     ...
     hyperBorder: {
       animate: true,
+      ...
+    }
+    ...
+  }
+}
+```
+
+To change the speed of animation, specify an object with a `duration` property:
+
+```javascript
+module.exports = {
+  config: {
+    ...
+    hyperBorder: {
+      animate: {
+        duration: '1s';   // default is 16s
+      },
       ...
     }
     ...
