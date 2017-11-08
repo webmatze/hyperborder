@@ -23,8 +23,8 @@ The following settings can be configured by adding a `hyperBorder` section in yo
 | `borderWidth`        | `string`             | CSS string for how thick the borders should be         |
 | `borderColors`       | `string`, `string[]` | The color(s) for the border                            |
 | `adminBorderColors`  | `string`, `string[]` | The color(s) for the border for an admin/elevated window. This follows the precedence  of `adminBorderColors` > `borderColors` > defaultColors                                    |
-| `blurredColors`      | `string`, `string[]` | The colors of the borders when the window isn't active |
-| `blurredAdminColors` | `string`, `string[]` | The colors of the borders when the admin/elevated window isn't active. This follows the precedence of `blurredAdminColors` > `blurredColors` > `adminBorderColors` > `borderColors` > defaultColors |
+| `blurredColors`      | `string`, `string[]` | The color(s) of the borders when the window isn't active |
+| `blurredAdminColors` | `string`, `string[]` | The color(s) of the borders when the admin/elevated window isn't active. This follows the precedence of `blurredAdminColors` > `blurredColors` > `adminBorderColors` > `borderColors` > defaultColors |
 
 ### EXAMPLE: Set Border Colors And Width
 
