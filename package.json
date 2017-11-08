@@ -10,5 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/webmatze/hyperborder.git"
   },
-  "dependencies": {}
+  "dependencies": {
+    "is-elevated": "^2.0.1"
+  }
 }

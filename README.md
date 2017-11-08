@@ -16,10 +16,22 @@ module.exports = {
 then just restart `Hyper` app or go to the menu 'Plugins / Update All Now'
 
 ## Configuration
-### Set Border Colors And Width
-It is now possible to change the gradient colors and the border width.
+The following settings can be configured by adding a `hyperBorder` section in your `.hyper.js` `config` section:
 
-Just add the following to your `.hyper.js`:
+* `borderWidth`: string
+  * How thick the borders should be
+* `borderColors`: string, string[]
+  * The color of the borders
+* `adminBorderColors`: string, string[]
+  * The colors of the borders for an admin/elevated window
+  * This follows the precedence  of `adminBorderColors` > `borderColors` > defaultColors
+* `blurredColors`: string, string[]
+  * The colors of the borders when the window isn't active
+* `blurredAdminColors`: string, string[]
+  * The colors of the borders when the admin/elevated window isn't active
+  * This follows the precedence of `blurredAdminColors` > `blurredColors` > `adminBorderColors` > `borderColors` > defaultColors
+
+### EXAMPLE: Set Border Colors And Width
 
 ```javascript
 module.exports = {
@@ -34,7 +46,7 @@ module.exports = {
 }
 ```
 
-### Set Border Colors To Random Colors
+### EXAMPLE: Set Border Colors To Random Colors
 
 In addition, you can set any color value to `'random'` (string value):
 
