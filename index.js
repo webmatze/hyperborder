@@ -18,10 +18,11 @@ module.exports.decorateConfig = (config) => {
   }, config.hyperBorder);
 
   var colors = getBorderColors(configObj.borderColors).join(',');
+  console.log('Selected border colors:', colors);
   var borderWidth = configObj.borderWidth;
   var animateStyles = `
     background-size: 800% 800%;
-    animation: AnimationName 16s ease infinite;
+    animation: hyperBorderAnimation ${configObj.animate.duration || '16s'} ease infinite;
   `
   return Object.assign({}, config, {
     css: `
@@ -32,7 +33,7 @@ module.exports.decorateConfig = (config) => {
         border-radius: ${borderWidth};
         overflow: hidden;
       }
-      @keyframes AnimationName {
+      @keyframes hyperBorderAnimation {
           0%{background-position:0% 50%}
           50%{background-position:100% 50%}
           100%{background-position:0% 50%}
