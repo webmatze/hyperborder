@@ -60,7 +60,7 @@ module.exports = {
 
 Then every newly opened `Hyper` terminal window will have a different colored border.
 
-### Animate Border Colors
+### EXAMPLE: Animate Border Colors
 You like some animations? Then try this:
 
 ```javascript
@@ -93,7 +93,7 @@ module.exports = {
 }
 ```
 
-### Angled Gradients
+### EXAMPLE: Angled Gradients
 Because we use CSS3's `linear-gradient`, we're able to specify angles at which to create the radius. Set your own angle like this:
 
 ```javascript
