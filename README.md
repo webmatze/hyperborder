@@ -16,10 +16,23 @@ module.exports = {
 then just restart `Hyper` app or go to the menu 'Plugins / Update All Now'
 
 ## Configuration
-### Set Border Colors And Width
-It is now possible to change the gradient colors and the border width.
+The following settings can be configured by adding a `hyperBorder` section in your `.hyper.js` `config` section:
 
-Just add the following to your `.hyper.js`:
+| Setting              | Type                 | Description                                            |
+|----------------------|----------------------|--------------------------------------------------------|
+| `borderWidth`        | `string`             | CSS string for how thick the borders should be         |
+| `borderColors`       | `string`, `string[]` | The color(s) for the border                            |
+| `adminBorderColors`  | `string`, `string[]` | The color(s) for the border for an admin/elevated window. This follows the precedence  of `adminBorderColors` > `borderColors` > defaultColors                                    |
+| `blurredColors`      | `string`, `string[]` | The color(s) of the borders when the window isn't active |
+| `blurredAdminColors` | `string`, `string[]` | The color(s) of the borders when the admin/elevated window isn't active. This follows the precedence of `blurredAdminColors` > `blurredColors` > `adminBorderColors` > `borderColors` > defaultColors |
+
+## A note on admin/root colors
+The use of Hyper under the admin/root account is mainly intended for Windows' users (where it is common to run an application in
+elevated mode), since on Linux/OSX you would typically utilize the `sudo <command>` command. _Technically_ you can run Hyper as root
+on non-Windows machines (there are issues running Hyper as root under a [Wayland](https://wayland.freedesktop.org/) desktop), though
+in this case, the root user will actually have their own copy of `.hyper.js` configuration.
+
+### EXAMPLE: Set Border Colors And Width
 
 ```javascript
 module.exports = {
@@ -34,9 +47,7 @@ module.exports = {
 }
 ```
 
-Note that you can specify as many colors as you want in the `borderColors` config property.
-
-### Set Border Colors To Random Colors
+### EXAMPLE: Set Border Colors To Random Colors
 
 In addition, you can set any color value to `'random'` (string value):
 
@@ -55,7 +66,7 @@ module.exports = {
 
 Then every newly opened `Hyper` terminal window will have a different colored border.
 
-### Animate Border Colors
+### EXAMPLE: Animate Border Colors
 You like some animations? Then try this:
 
 ```javascript
@@ -88,7 +99,7 @@ module.exports = {
 }
 ```
 
-### Angled Gradients
+### EXAMPLE: Angled Gradients
 Because we use CSS3's `linear-gradient`, we're able to specify angles at which to create the radius. Set your own angle like this:
 
 ```javascript
