@@ -26,6 +26,12 @@ The following settings can be configured by adding a `hyperBorder` section in yo
 | `blurredColors`      | `string`, `string[]` | The color(s) of the borders when the window isn't active |
 | `blurredAdminColors` | `string`, `string[]` | The color(s) of the borders when the admin/elevated window isn't active. This follows the precedence of `blurredAdminColors` > `blurredColors` > `adminBorderColors` > `borderColors` > defaultColors |
 
+## A note on admin/root colors
+The use of Hyper under the admin/root account is mainly intended for Windows' users (where it is common to run an application in
+elevated mode), since on Linux/OSX you would typically utilize the `sudo <command>` command. _Technically_ you can run Hyper as root
+on non-Windows machines (there are issues running Hyper as root under a [Wayland](https://wayland.freedesktop.org/) desktop), though
+in this case, the root user will actually have their own copy of `.hyper.js` configuration.
+
 ### EXAMPLE: Set Border Colors And Width
 
 ```javascript
