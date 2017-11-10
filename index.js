@@ -35,8 +35,8 @@ module.exports.decorateConfig = (config) => {
     animate: false,
     borderWidth: '4px',
     borderColors: defaultColors,
-    adminBorderColors: config.hyperBorder.borderColors || defaultColors,
-    blurredAdminColors: config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors || defaultColors,
+    adminBorderColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
+    blurredAdminColors: (config.hyperBorder && (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors)) || defaultColors,
     blurredColors: defaultColors,
     borderAngle: '180deg'
   }, config.hyperBorder);
