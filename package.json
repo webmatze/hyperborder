@@ -12,5 +12,12 @@
   },
   "dependencies": {
     "is-elevated": "^2.0.1"
+  },
+  "scripts": {
+    "test": "ava test/*.test.js"
+  },
+  "devDependencies": {
+    "ava": "^0.23.0",
+    "mock-require": "^2.0.2"
   }
 }

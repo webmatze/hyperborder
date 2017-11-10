@@ -10,7 +10,8 @@ const getBorderColors = (colors = 'random') => {
 
   // hack to repeat color for a single color border and still use 'linear-gradient'
   return colors.length < 2 ? colors.concat(colors[0]) : colors;
-}
+};
+module.exports.getBorderColors = getBorderColors;
 
 module.exports.onRendererWindow = (window) => {
   const browserWindow = remote.getCurrentWindow();
