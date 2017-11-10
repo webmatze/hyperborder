@@ -7,7 +7,13 @@
     "browser": true,
     "es6": true
   },
-  "extends": "eslint:recommended",
+  "plugins": [
+    "ava"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:ava/recommended"
+  ],
   "rules": {
     "indent": ["error", 2, { "MemberExpression": "off" }],
     "quotes": ["error", "single"],
