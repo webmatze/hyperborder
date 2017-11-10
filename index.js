@@ -10,7 +10,8 @@ const getBorderColors = (colors = 'random') => {
 
   // hack to repeat color for a single color border and still use 'linear-gradient'
   return colors.length < 2 ? colors.concat(colors[0]) : colors;
-}
+};
+module.exports.getBorderColors = getBorderColors;
 
 module.exports.onRendererWindow = (window) => {
   const browserWindow = remote.getCurrentWindow();
@@ -26,7 +27,7 @@ module.exports.onRendererWindow = (window) => {
       window.document.documentElement.classList.add('elevated');
     }
   });
-}
+};
 
 module.exports.decorateConfig = (config) => {
   const defaultColors = ['#fc1da7', '#fba506'];
@@ -117,4 +118,4 @@ module.exports.decorateConfig = (config) => {
       }
     `
   });
-}
+};

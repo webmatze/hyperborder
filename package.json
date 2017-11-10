@@ -12,5 +12,14 @@
   },
   "dependencies": {
     "is-elevated": "^2.0.1"
+  },
+  "scripts": {
+    "test": "eslint **/*.js && ava test/*.test.js"
+  },
+  "devDependencies": {
+    "ava": "^0.23.0",
+    "eslint": "^4.10.0",
+    "eslint-plugin-ava": "^4.2.2",
+    "mock-require": "^2.0.2"
   }
 }

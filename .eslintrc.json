@@ -1,0 +1,22 @@
+{
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true
+  },
+  "plugins": [
+    "ava"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:ava/recommended"
+  ],
+  "rules": {
+    "indent": ["error", 2, { "MemberExpression": "off" }],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"]
+  }
+}
