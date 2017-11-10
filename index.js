@@ -27,7 +27,7 @@ module.exports.onRendererWindow = (window) => {
       window.document.documentElement.classList.add('elevated');
     }
   });
-}
+};
 
 module.exports.decorateConfig = (config) => {
   const defaultColors = ['#fc1da7', '#fba506'];
@@ -118,4 +118,4 @@ module.exports.decorateConfig = (config) => {
       }
     `
   });
-}
+};
