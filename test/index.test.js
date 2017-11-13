@@ -1,5 +1,5 @@
 import test from 'ava';
-import {oneLineTrim} from 'common-tags';
+import {oneLine} from 'common-tags';
 const proxyquire = require('proxyquire').noCallThru();
 
 // --- getBorderColors() ---
@@ -12,7 +12,7 @@ test('getBorderColors() returns an array when a single color is given', t => {
   t.true(Array.isArray(getBorderColors('#FFF')));
 });
 
-test(oneLineTrim`
+test(oneLine`
   the second color given by getBorderColors() is the same
   as the first when an individual color is given`,
   t => {
@@ -40,7 +40,7 @@ test('getBorderColors() returns a single random color when nothing is provided',
 
 // --- decorateConfig() ---
 
-test(oneLineTrim`
+test(oneLine`
   decorateConfig() doesn't throw when there isn't
   a hyperBorder config section`,
   t => {
@@ -53,7 +53,7 @@ test(oneLineTrim`
 
 // --- onRendererWindow() ---
 
-test(oneLineTrim`
+test(oneLine`
   onRendererWindow() doesn't add "blurred" class when the window
   is initially focused`,
   async t => {
@@ -72,7 +72,7 @@ test(oneLineTrim`
   }
 );
 
-test(oneLineTrim`
+test(oneLine`
   onRendererWindow() adds "blurred" class when the window
   is not initially focused`,
   async t => {
@@ -91,7 +91,7 @@ test(oneLineTrim`
   }
 );
 
-test(oneLineTrim`
+test(oneLine`
   onRendererWindow() doesn't add "elevated" class when hyper is
   not opened by admin/root`,
   async t => {
@@ -107,7 +107,7 @@ test(oneLineTrim`
   }
 );
 
-test(oneLineTrim`
+test(oneLine`
   onRendererWindow() adds "elevated" class when hyper is
   opened by admin/root`,
   async t => {
