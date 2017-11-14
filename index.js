@@ -13,7 +13,7 @@ const getBorderColors = (colors = 'random') => {
 };
 module.exports.getBorderColors = getBorderColors;
 
-module.exports.onRendererWindow = (window) => {
+module.exports.onRendererWindow = async (window) => {
   const browserWindow = remote.getCurrentWindow();
   browserWindow.on('blur', () => window.document.documentElement.classList.add('blurred'));
   browserWindow.on('focus', () => window.document.documentElement.classList.remove('blurred'));
@@ -22,11 +22,9 @@ module.exports.onRendererWindow = (window) => {
     window.document.documentElement.classList.add('blurred');
   }
 
-  isElevated().then(elevated => {
-    if (elevated) {
-      window.document.documentElement.classList.add('elevated');
-    }
-  });
+  if (await isElevated()) {
+    window.document.documentElement.classList.add('elevated');
+  }
 };
 
 module.exports.decorateConfig = (config) => {

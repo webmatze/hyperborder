@@ -15,7 +15,10 @@
     "plugin:ava/recommended"
   ],
   "rules": {
-    "indent": ["error", 2, { "MemberExpression": "off" }],
+    "indent": ["error", 2, {
+      "MemberExpression": "off",
+      "SwitchCase": 1
+    }],
     "quotes": ["error", "single"],
     "semi": ["error", "always"]
   }
