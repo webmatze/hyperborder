@@ -114,6 +114,10 @@ module.exports.decorateConfig = (config) => {
       .hyper_main .terms_term {
         margin-top: ${borderWidth};
       }
+      .header_windowHeaderWithBorder {
+        left: ${borderWidth};
+        width: calc(100% - ${borderWidth} - ${borderWidth});
+      }
     `
   });
 };
