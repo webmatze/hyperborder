@@ -25,6 +25,20 @@ module.exports.onRendererWindow = async (window) => {
   if (await isElevated()) {
     window.document.documentElement.classList.add('elevated');
   }
+
+  var config = window.config.getConfig();  
+  var deg = 0;
+
+  const updateBorderAngle = () => {
+    window.document.documentElement.style.setProperty('--border-angle', `${deg}deg`);
+    deg = deg > 360 ? 2 : deg + 2;
+  }
+
+  if (config.hyperBorder.animate) {
+    console.log('start animation interval');
+    window.setInterval(updateBorderAngle, 100);
+  }
+
 };
 
 module.exports.decorateConfig = (config) => {
@@ -39,18 +53,6 @@ module.exports.decorateConfig = (config) => {
     blurredColors: defaultColors,
     borderAngle: '180deg'
   }, config.hyperBorder);
-
-  let animateStyles = `
-    @keyframes hyperBorderAnimation {
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
-    }
-    html {
-      background-size: 800% 800%;
-      animation: hyperBorderAnimation ${configObj.animate.duration || '16s'} ease infinite;
-    }
-  `;
 
   return Object.assign({}, config, {
     css: `
@@ -70,7 +72,6 @@ module.exports.decorateConfig = (config) => {
         border-radius: var(--border-width);
         overflow: hidden;
       }
-      ${ configObj.animate ? animateStyles : '' }      
       html.elevated {
         background: linear-gradient(var(--border-angle), var(--admin-colors));
       }
