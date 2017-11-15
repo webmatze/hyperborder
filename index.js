@@ -40,83 +40,90 @@ module.exports.decorateConfig = (config) => {
     borderAngle: '180deg'
   }, config.hyperBorder);
 
-  let colors = getBorderColors(configObj.borderColors).join(',');
-  let adminColors = getBorderColors(configObj.adminBorderColors).join(',');
-  let blurredColors = getBorderColors(configObj.blurredColors).join(',');
-  let blurredAdminColors = getBorderColors(configObj.blurredAdminColors).join(',');
-  let borderWidth = configObj.borderWidth;
   let animateStyles = `
-    background-size: 800% 800%;
-    animation: hyperBorderAnimation ${configObj.animate.duration || '16s'} ease infinite;
+    @keyframes hyperBorderAnimation {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+    html {
+      background-size: 800% 800%;
+      animation: hyperBorderAnimation ${configObj.animate.duration || '16s'} ease infinite;
+    }
   `;
 
   return Object.assign({}, config, {
     css: `
       html {
+        --border-width: ${configObj.borderWidth};
+        --border-angle: ${configObj.animate ? '269deg' : configObj.borderAngle};
+        --background-color: ${config.backgroundColor || '#000'};
+        --border-color: ${config.borderColor};
+        --border-colors: ${getBorderColors(configObj.borderColors).join(',')};
+        --admin-colors: ${getBorderColors(configObj.adminBorderColors).join(',')};
+        --blurred-colors: ${getBorderColors(configObj.blurredColors).join(',')};
+        --blurred-admin-colors: ${getBorderColors(configObj.blurredAdminColors).join(',')};
+      }
+      html {
         height: 100%;
-        background: linear-gradient(${ configObj.animate ? '269deg' : configObj.borderAngle }, ${colors});
-        ${ configObj.animate ? animateStyles : '' }
-        border-radius: ${borderWidth};
+        background: linear-gradient(var(--border-angle), var(--border-colors));
+        border-radius: var(--border-width);
         overflow: hidden;
       }
+      ${ configObj.animate ? animateStyles : '' }      
       html.elevated {
-        background: linear-gradient(${ configObj.animate ? '269deg' : configObj.borderAngle }, ${adminColors});
+        background: linear-gradient(var(--border-angle), var(--admin-colors));
       }
       html.blurred {
-        background: linear-gradient(${ configObj.animate ? '269deg' : configObj.borderAngle }, ${blurredColors});
+        background: linear-gradient(var(--border-angle), var(--blurred-colors));
       }
       html.blurred.elevated {
-        background: linear-gradient(${ configObj.animate ? '269deg' : configObj.borderAngle }, ${blurredAdminColors});
-      }
-      @keyframes hyperBorderAnimation {
-          0%{background-position:0% 50%}
-          50%{background-position:100% 50%}
-          100%{background-position:0% 50%}
+        background: linear-gradient(var(--border-angle), var(--blurred-admin-colors));
       }
       body {
         position: absolute;
-        top: ${borderWidth};
-        bottom: ${borderWidth};
-        left: ${borderWidth};
-        right: ${borderWidth};
-        border-radius: ${borderWidth};
+        top: var(--border-width);
+        bottom: var(--border-width);
+        left: var(--border-width);
+        right: var(--border-width);
+        border-radius: var(--border-width);
       }
       ${config.css || ''}
       #mount {
       }
       .hyper_main {
-        background-color: ${config.backgroundColor || '#000'};
-        top: ${borderWidth};
-        bottom: ${borderWidth};
-        left: ${borderWidth};
-        right: ${borderWidth};
+        background-color: var(--background-color);
+        top: var(--border-width);
+        bottom: var(--border-width);
+        left: var(--border-width);
+        right: var(--border-width);
         border-width: 0px;
       }
       .hyper_main .header_header {
-        top: ${borderWidth};
-        left: ${borderWidth};
-        right: ${borderWidth};
+        top: var(--border-width);
+        left: var(--border-width);
+        right: var(--border-width);
       }
       .hyper_main .tabs_list {
-        border-bottom-color: ${config.borderColor};
-        border-top-left-radius: ${borderWidth};
-        border-top-right-radius: ${borderWidth};
+        border-bottom-color: var(--border-color);
+        border-top-left-radius: var(--border-width);
+        border-top-right-radius: var(--border-width);
       }
       .hyper_main .tab_tab:last-child {
-        border-top-right-radius: ${borderWidth}
+        border-top-right-radius: var(--border-width);
       }
       .hyper_main .terms_terms {
-        border-radius: 0 0 ${borderWidth} ${borderWidth};
-        bottom: ${borderWidth};
-        left: ${borderWidth};
-        right: ${borderWidth};
+        border-radius: 0 0 var(--border-width) var(--border-width);
+        bottom: var(--border-width);
+        left: var(--border-width);
+        right: var(--border-width);
       }
       .hyper_main .terms_term {
-        margin-top: ${borderWidth};
+        margin-top: var(--border-width);
       }
       .header_windowHeaderWithBorder {
-        left: ${borderWidth};
-        width: calc(100% - ${borderWidth} - ${borderWidth});
+        left: var(--border-width);
+        width: calc(100% - var(--border-width) - var(--border-width));
       }
     `
   });
