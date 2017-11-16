@@ -27,15 +27,36 @@ module.exports.onRendererWindow = async (window) => {
   }
 
   const config = window.config.getConfig();  
-  let deg = 0;
-
-  const updateBorderAngle = () => {
-    window.document.documentElement.style.setProperty('--border-angle', `${deg}deg`);
-    deg = deg > 360 ? 2 : deg + 2;
-  };
-
+  
   if (config.hyperBorder && config.hyperBorder.animate) {
-    window.setInterval(updateBorderAngle, 100);
+
+    let deg = 0;
+    let intervalId = null;
+    
+    const updateBorderAngle = () => {
+      window.document.documentElement.style.setProperty('--border-angle', `${deg}deg`);
+      deg = deg > 360 ? 2 : deg + 2;
+    };
+
+    const createUpdateBorderAngleInterval = () => {
+      if (!intervalId) {
+        intervalId = window.setInterval(updateBorderAngle, 100);        
+      }
+    };
+
+    const clearUpdateBorderAngleInterval = () => {
+      if (intervalId) {
+        window.clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+
+    browserWindow.on('close', clearUpdateBorderAngleInterval );
+    browserWindow.on('blur', clearUpdateBorderAngleInterval );
+    browserWindow.on('focus', createUpdateBorderAngleInterval );
+    if (browserWindow.isFocused()) {
+      createUpdateBorderAngleInterval();      
+    }
   }
 
 };
