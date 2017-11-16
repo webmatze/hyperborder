@@ -14,7 +14,8 @@
     "is-elevated": "^2.0.1"
   },
   "scripts": {
-    "test": "eslint **/*.js && ava test/*.test.js"
+    "test": "npm run -s lint && ava test/*.test.js",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "ava": "^0.23.0",

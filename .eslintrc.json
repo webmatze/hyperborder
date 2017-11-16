@@ -20,6 +20,8 @@
       "SwitchCase": 1
     }],
     "quotes": ["error", "single"],
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "no-var": "error",
+    "prefer-const": "error"
   }
 }

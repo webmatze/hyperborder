@@ -32,7 +32,7 @@ module.exports.onRendererWindow = async (window) => {
   const updateBorderAngle = () => {
     window.document.documentElement.style.setProperty('--border-angle', `${deg}deg`);
     deg = deg > 360 ? 2 : deg + 2;
-  }
+  };
 
   if (config.hyperBorder && config.hyperBorder.animate) {
     window.setInterval(updateBorderAngle, 100);
@@ -43,7 +43,7 @@ module.exports.onRendererWindow = async (window) => {
 module.exports.decorateConfig = (config) => {
   const defaultColors = ['#fc1da7', '#fba506'];
 
-  let configObj = Object.assign({
+  const configObj = Object.assign({
     animate: false,
     borderWidth: '4px',
     borderColors: defaultColors,
