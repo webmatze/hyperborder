@@ -35,7 +35,6 @@ module.exports.onRendererWindow = async (window) => {
   }
 
   if (config.hyperBorder && config.hyperBorder.animate) {
-    console.log('start animation interval');
     window.setInterval(updateBorderAngle, 100);
   }
 
