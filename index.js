@@ -26,8 +26,8 @@ module.exports.onRendererWindow = async (window) => {
     window.document.documentElement.classList.add('elevated');
   }
 
-  var config = window.config.getConfig();  
-  var deg = 0;
+  const config = window.config.getConfig();  
+  let deg = 0;
 
   const updateBorderAngle = () => {
     window.document.documentElement.style.setProperty('--border-angle', `${deg}deg`);
