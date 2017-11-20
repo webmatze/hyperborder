@@ -1,9 +1,11 @@
 const {remote} = require('electron');
 const isElevated = require('is-elevated');
+const {createAnimator} = require('./lib/animator');
+
+let animator = null;
 
 const randomColor = ()  => '#'+Math.floor(Math.random()*16777215).toString(16);
 const getColor = (input) => input.toLowerCase() === 'random' ? randomColor() : input;
-
 const getBorderColors = (colors = 'random') => {
   colors = [].concat(colors) // ensure colors is an array
              .map(getColor);  // before mapping
@@ -11,10 +13,12 @@ const getBorderColors = (colors = 'random') => {
   // hack to repeat color for a single color border and still use 'linear-gradient'
   return colors.length < 2 ? colors.concat(colors[0]) : colors;
 };
+
 module.exports.getBorderColors = getBorderColors;
 
 module.exports.onRendererWindow = async (window) => {
   const browserWindow = remote.getCurrentWindow();
+
   browserWindow.on('blur', () => window.document.documentElement.classList.add('blurred'));
   browserWindow.on('focus', () => window.document.documentElement.classList.remove('blurred'));
 
@@ -25,12 +29,23 @@ module.exports.onRendererWindow = async (window) => {
   if (await isElevated()) {
     window.document.documentElement.classList.add('elevated');
   }
+
+  const config = window.config.getConfig();  
+  
+  if (config.hyperBorder && config.hyperBorder.animate) {
+    animator = createAnimator(window, browserWindow);
+  }
+
+};
+
+module.exports.onUnload = async () => {
+  if (animator) animator.unload();
 };
 
 module.exports.decorateConfig = (config) => {
   const defaultColors = ['#fc1da7', '#fba506'];
 
-  let configObj = Object.assign({
+  const configObj = Object.assign({
     animate: false,
     borderWidth: '4px',
     borderColors: defaultColors,
@@ -39,18 +54,6 @@ module.exports.decorateConfig = (config) => {
     blurredColors: defaultColors,
     borderAngle: '180deg'
   }, config.hyperBorder);
-
-  let animateStyles = `
-    @keyframes hyperBorderAnimation {
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
-    }
-    html {
-      background-size: 800% 800%;
-      animation: hyperBorderAnimation ${configObj.animate.duration || '16s'} ease infinite;
-    }
-  `;
 
   return Object.assign({}, config, {
     css: `
@@ -70,7 +73,6 @@ module.exports.decorateConfig = (config) => {
         border-radius: var(--border-width);
         overflow: hidden;
       }
-      ${ configObj.animate ? animateStyles : '' }      
       html.elevated {
         background: linear-gradient(var(--border-angle), var(--admin-colors));
       }

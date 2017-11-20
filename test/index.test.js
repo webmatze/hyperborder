@@ -170,6 +170,9 @@ function createMockWindow(classList) {
       documentElement: {
         classList
       }
+    },
+    config: {
+      getConfig: () => ({})
     }
   };
 }
