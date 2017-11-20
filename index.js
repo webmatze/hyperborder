@@ -1,9 +1,11 @@
 const {remote} = require('electron');
 const isElevated = require('is-elevated');
+const {createAnimator} = require('./lib/animator');
+
+let animator = null;
 
 const randomColor = ()  => '#'+Math.floor(Math.random()*16777215).toString(16);
 const getColor = (input) => input.toLowerCase() === 'random' ? randomColor() : input;
-
 const getBorderColors = (colors = 'random') => {
   colors = [].concat(colors) // ensure colors is an array
              .map(getColor);  // before mapping
@@ -11,10 +13,12 @@ const getBorderColors = (colors = 'random') => {
   // hack to repeat color for a single color border and still use 'linear-gradient'
   return colors.length < 2 ? colors.concat(colors[0]) : colors;
 };
+
 module.exports.getBorderColors = getBorderColors;
 
 module.exports.onRendererWindow = async (window) => {
   const browserWindow = remote.getCurrentWindow();
+
   browserWindow.on('blur', () => window.document.documentElement.classList.add('blurred'));
   browserWindow.on('focus', () => window.document.documentElement.classList.remove('blurred'));
 
@@ -29,36 +33,13 @@ module.exports.onRendererWindow = async (window) => {
   const config = window.config.getConfig();  
   
   if (config.hyperBorder && config.hyperBorder.animate) {
-
-    let deg = 0;
-    let intervalId = null;
-    
-    const updateBorderAngle = () => {
-      window.document.documentElement.style.setProperty('--border-angle', `${deg}deg`);
-      deg = deg > 360 ? 2 : deg + 2;
-    };
-
-    const createUpdateBorderAngleInterval = () => {
-      if (!intervalId) {
-        intervalId = window.setInterval(updateBorderAngle, 100);        
-      }
-    };
-
-    const clearUpdateBorderAngleInterval = () => {
-      if (intervalId) {
-        window.clearInterval(intervalId);
-        intervalId = null;
-      }
-    };
-
-    browserWindow.on('close', clearUpdateBorderAngleInterval);
-    browserWindow.on('blur', clearUpdateBorderAngleInterval);
-    browserWindow.on('focus', createUpdateBorderAngleInterval);
-    if (browserWindow.isFocused()) {
-      createUpdateBorderAngleInterval();      
-    }
+    animator = createAnimator(window, browserWindow);
   }
 
+};
+
+module.exports.onUnload = async () => {
+  if (animator) animator.unload();
 };
 
 module.exports.decorateConfig = (config) => {
