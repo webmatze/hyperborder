@@ -51,9 +51,9 @@ module.exports.onRendererWindow = async (window) => {
       }
     };
 
-    browserWindow.on('close', clearUpdateBorderAngleInterval );
-    browserWindow.on('blur', clearUpdateBorderAngleInterval );
-    browserWindow.on('focus', createUpdateBorderAngleInterval );
+    browserWindow.on('close', clearUpdateBorderAngleInterval);
+    browserWindow.on('blur', clearUpdateBorderAngleInterval);
+    browserWindow.on('focus', createUpdateBorderAngleInterval);
     if (browserWindow.isFocused()) {
       createUpdateBorderAngleInterval();      
     }
