@@ -1,5 +1,6 @@
 import test from 'ava';
 import {oneLine} from 'common-tags';
+import {createMockElectron, createMockWindow, createMockBrowserWindow} from './helpers';
 const proxyquire = require('proxyquire').noCallThru();
 
 // --- decorateConfig() ---
@@ -124,47 +125,3 @@ test(
     t.false(classList.has('blurred'));
   }
 );
-
-// --- Helpers ---
-function createMockWindow(classList) {
-  classList.remove = classList.delete;
-
-  return {
-    document: {
-      documentElement: {
-        classList
-      }
-    },
-    config: {
-      getConfig: () => ({})
-    }
-  };
-}
-
-function createMockBrowserWindow(browserWindow) {
-  const newBrowserWindow = Object.assign({
-    isFocused: () => {},
-    on: (event, cb) => {
-      switch(event) {
-        case 'blur':
-          newBrowserWindow.blur = cb;
-          break;
-        case 'focus':
-          newBrowserWindow.focus = cb;
-          break;
-      }
-    }
-  }, browserWindow);
-
-  return newBrowserWindow;
-}
-
-function createMockElectron(browserWindow) {
-  browserWindow = createMockBrowserWindow(browserWindow);
-
-  return {
-    remote: {
-      getCurrentWindow: () => browserWindow
-    }
-  };
-}
