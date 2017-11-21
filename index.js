@@ -1,20 +1,9 @@
 const {remote} = require('electron');
 const isElevated = require('is-elevated');
 const {createAnimator} = require('./lib/animator');
+const {getBorderColors} = require('./lib/colorhelpers');
 
 let animator = null;
-
-const randomColor = ()  => '#'+Math.floor(Math.random()*16777215).toString(16);
-const getColor = (input) => input.toLowerCase() === 'random' ? randomColor() : input;
-const getBorderColors = (colors = 'random') => {
-  colors = [].concat(colors) // ensure colors is an array
-             .map(getColor);  // before mapping
-
-  // hack to repeat color for a single color border and still use 'linear-gradient'
-  return colors.length < 2 ? colors.concat(colors[0]) : colors;
-};
-
-module.exports.getBorderColors = getBorderColors;
 
 module.exports.onRendererWindow = async (window) => {
   const browserWindow = remote.getCurrentWindow();
