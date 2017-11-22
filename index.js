@@ -5,7 +5,7 @@ const {getBorderColors} = require('./lib/colorhelpers');
 
 let unloadAnimator = null;
 
-module.exports.onRendererWindow = async (window) => {
+module.exports.onRendererWindow = async window => {
   const browserWindow = remote.getCurrentWindow();
 
   browserWindow.on('blur', () => window.document.documentElement.classList.add('blurred'));
@@ -19,19 +19,20 @@ module.exports.onRendererWindow = async (window) => {
     window.document.documentElement.classList.add('elevated');
   }
 
-  const config = window.config.getConfig();  
-  
+  const config = window.config.getConfig();
+
   if (config.hyperBorder && config.hyperBorder.animate) {
     unloadAnimator = createAnimator(window, browserWindow);
   }
-
 };
 
 module.exports.onUnload = async () => {
-  if (unloadAnimator) unloadAnimator();
+  if (unloadAnimator) {
+    unloadAnimator();
+  }
 };
 
-module.exports.decorateConfig = (config) => {
+module.exports.decorateConfig = config => {
   const defaultColors = ['#fc1da7', '#fba506'];
 
   const configObj = Object.assign({

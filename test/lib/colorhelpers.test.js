@@ -23,5 +23,5 @@ test('getBorderColors() returns a single random color when nothing is provided',
 
   t.is(colors[0], colors[1]);
   t.true(colors[0].startsWith('#'));
-  t.not(+`0x${colors[0].substring(1)}`, NaN);
+  t.not(Number(`0x${colors[0].substring(1)}`), NaN);
 });

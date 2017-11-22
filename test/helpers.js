@@ -13,7 +13,7 @@ module.exports.createMockWindow = function (classList) {
   };
 };
 
-const createMockBrowserWindow = module.exports.createMockBrowserWindow = function (browserWindow) {
+const createMockBrowserWindow = function (browserWindow) {
   const newBrowserWindow = Object.assign({
     isFocused: () => {},
     on: (event, cb) => {
@@ -24,12 +24,15 @@ const createMockBrowserWindow = module.exports.createMockBrowserWindow = functio
         case 'focus':
           newBrowserWindow.focus = cb;
           break;
+        default:
+          break;
       }
     }
   }, browserWindow);
 
   return newBrowserWindow;
 };
+module.exports.createMockBrowserWindow = createMockBrowserWindow;
 
 module.exports.createMockElectron = function (browserWindow) {
   browserWindow = createMockBrowserWindow(browserWindow);
