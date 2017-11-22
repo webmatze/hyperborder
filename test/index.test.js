@@ -1,42 +1,7 @@
-import test from 'ava';
-import {oneLine} from 'common-tags';
+const test = require('ava');
+const {oneLine} = require('common-tags');
+const {createMockElectron, createMockWindow, createMockBrowserWindow} = require('./helpers');
 const proxyquire = require('proxyquire').noCallThru();
-
-// --- getBorderColors() ---
-
-test('getBorderColors() returns an array when a single color is given', t => {
-  const {getBorderColors} = proxyquire('../index', {
-    electron: {}
-  });
-
-  t.true(Array.isArray(getBorderColors('#FFF')));
-});
-
-test(oneLine`
-  the second color given by getBorderColors() is the same
-  as the first when an individual color is given`,
-  t => {
-    const {getBorderColors} = proxyquire('../index', {
-      electron: {}
-    });
-    const color = '#FFF';
-    const colors = getBorderColors(color);
-
-    t.is(colors[0], color);
-    t.is(colors[0], colors[1]);
-  }
-);
-
-test('getBorderColors() returns a single random color when nothing is provided', t => {
-  const {getBorderColors} = proxyquire('../index', {
-    electron: {}
-  });
-  const colors = getBorderColors();
-
-  t.is(colors[0], colors[1]);
-  t.true(colors[0].startsWith('#'));
-  t.not(+`0x${colors[0].substring(1)}`, NaN);
-});
 
 // --- decorateConfig() ---
 
@@ -160,47 +125,3 @@ test(
     t.false(classList.has('blurred'));
   }
 );
-
-// --- Helpers ---
-function createMockWindow(classList) {
-  classList.remove = classList.delete;
-
-  return {
-    document: {
-      documentElement: {
-        classList
-      }
-    },
-    config: {
-      getConfig: () => ({})
-    }
-  };
-}
-
-function createMockBrowserWindow(browserWindow) {
-  const newBrowserWindow = Object.assign({
-    isFocused: () => {},
-    on: (event, cb) => {
-      switch(event) {
-        case 'blur':
-          newBrowserWindow.blur = cb;
-          break;
-        case 'focus':
-          newBrowserWindow.focus = cb;
-          break;
-      }
-    }
-  }, browserWindow);
-
-  return newBrowserWindow;
-}
-
-function createMockElectron(browserWindow) {
-  browserWindow = createMockBrowserWindow(browserWindow);
-
-  return {
-    remote: {
-      getCurrentWindow: () => browserWindow
-    }
-  };
-}
