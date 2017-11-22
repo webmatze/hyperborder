@@ -11,8 +11,7 @@
     "ava"
   ],
   "extends": [
-    "eslint:recommended",
-    "plugin:ava/recommended"
+    "xo-space"
   ],
   "rules": {
     "indent": ["error", 2, {

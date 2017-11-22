@@ -21,7 +21,7 @@
     "ava": "^0.23.0",
     "common-tags": "^1.4.0",
     "eslint": "^4.10.0",
-    "eslint-plugin-ava": "^4.2.2",
+    "eslint-config-xo-space": "^0.17.0",
     "proxyquire": "^1.8.0"
   }
 }
