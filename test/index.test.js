@@ -1,6 +1,6 @@
-import test from 'ava';
-import {oneLine} from 'common-tags';
-import {createMockElectron, createMockWindow, createMockBrowserWindow} from './helpers';
+const test = require('ava');
+const {oneLine} = require('common-tags');
+const {createMockElectron, createMockWindow, createMockBrowserWindow} = require('./helpers');
 const proxyquire = require('proxyquire').noCallThru();
 
 // --- decorateConfig() ---

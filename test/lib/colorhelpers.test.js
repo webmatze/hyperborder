@@ -1,5 +1,5 @@
-import test from 'ava';
-import {oneLine} from 'common-tags';
+const test = require('ava');
+const {oneLine} = require('common-tags');
 const {getBorderColors} = require('../../lib/colorhelpers');
 
 test('getBorderColors() returns an array when a single color is given', t => {

@@ -1,6 +1,6 @@
-import test from 'ava';
+const test = require('ava');
 const {createAnimator} = require('../../lib/animator');
-import {createMockWindow, createMockBrowserWindow} from '../helpers';
+const {createMockWindow, createMockBrowserWindow} = require('../helpers');
 
 test('createAnimator() returns an unload function', t => {
   const mockBrowserWindow = createMockBrowserWindow({
