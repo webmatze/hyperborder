@@ -3,7 +3,7 @@ const isElevated = require('is-elevated');
 const {createAnimator} = require('./lib/animator');
 const {getBorderColors} = require('./lib/colorhelpers');
 
-let animator = null;
+let unloadAnimator = null;
 
 module.exports.onRendererWindow = async (window) => {
   const browserWindow = remote.getCurrentWindow();
@@ -22,13 +22,13 @@ module.exports.onRendererWindow = async (window) => {
   const config = window.config.getConfig();  
   
   if (config.hyperBorder && config.hyperBorder.animate) {
-    animator = createAnimator(window, browserWindow);
+    unloadAnimator = createAnimator(window, browserWindow);
   }
 
 };
 
 module.exports.onUnload = async () => {
-  if (animator) animator.unload();
+  if (unloadAnimator) unloadAnimator();
 };
 
 module.exports.decorateConfig = (config) => {
