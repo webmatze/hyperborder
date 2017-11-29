@@ -90,7 +90,7 @@ module.exports = {
     ...
     hyperBorder: {
       animate: {
-        duration: '1s';   // default is 16s
+        duration: '1s',  // default is 16s
       },
       ...
     }
