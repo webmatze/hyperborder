@@ -3,9 +3,9 @@ const isElevated = require('is-elevated');
 const {createAnimator} = require('./lib/animator');
 const {getBorderColors} = require('./lib/colorhelpers');
 
-let unloadAnimator = null;
+let unloadAnimator;
 
-module.exports.onRendererWindow = async window => {
+exports.onRendererWindow = async window => {
   const browserWindow = remote.getCurrentWindow();
 
   browserWindow.on('blur', () => window.document.documentElement.classList.add('blurred'));
@@ -26,13 +26,13 @@ module.exports.onRendererWindow = async window => {
   }
 };
 
-module.exports.onUnload = async () => {
+exports.onUnload = async () => {
   if (unloadAnimator) {
     unloadAnimator();
   }
 };
 
-module.exports.decorateConfig = config => {
+exports.decorateConfig = config => {
   const defaultColors = ['#fc1da7', '#fba506'];
 
   const configObj = Object.assign({
@@ -47,7 +47,7 @@ module.exports.decorateConfig = config => {
 
   return Object.assign({}, config, {
     css: `
-      html {
+      :global(:root) {
         --border-width: ${configObj.borderWidth};
         --border-angle: ${configObj.animate ? '269deg' : configObj.borderAngle};
         --background-color: ${config.backgroundColor || '#000'};
@@ -57,22 +57,22 @@ module.exports.decorateConfig = config => {
         --blurred-colors: ${getBorderColors(configObj.blurredColors).join(',')};
         --blurred-admin-colors: ${getBorderColors(configObj.blurredAdminColors).join(',')};
       }
-      html {
+      :global(html) {
         height: 100%;
         background: linear-gradient(var(--border-angle), var(--border-colors));
         border-radius: var(--border-width);
         overflow: hidden;
       }
-      html.elevated {
+      :global(html.elevated) {
         background: linear-gradient(var(--border-angle), var(--admin-colors));
       }
-      html.blurred {
+      :global(html.blurred) {
         background: linear-gradient(var(--border-angle), var(--blurred-colors));
       }
-      html.blurred.elevated {
+      :global(html.blurred.elevated) {
         background: linear-gradient(var(--border-angle), var(--blurred-admin-colors));
       }
-      body {
+      :global(body) {
         position: absolute;
         top: var(--border-width);
         bottom: var(--border-width);
