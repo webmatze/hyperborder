@@ -88,7 +88,7 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           left: 0;
           right: 0;
           position: fixed;
-          border-radius: var(--border-width);
+          border-radius: 0;
         }
         #hyperborder .hyper_main {
           background-color: var(--background-color);
