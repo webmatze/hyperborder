@@ -82,8 +82,6 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           --admin-colors: ${getBorderColors(this.props.hyperBorder.adminBorderColors).join(',')};
           --blurred-colors: ${getBorderColors(this.props.hyperBorder.blurredColors).join(',')};
           --blurred-admin-colors: ${getBorderColors(this.props.hyperBorder.blurredAdminColors).join(',')};
-        }
-        #hyperborder #hyper {
           background: linear-gradient(var(--border-angle), var(--border-colors));
           top: 0;
           bottom: 0;
@@ -92,7 +90,7 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           position: fixed;
           border-radius: var(--border-width);
         }
-        #hyperborder #hyper .hyper_main {
+        #hyperborder .hyper_main {
           background-color: var(--background-color);
           top: var(--border-width);
           bottom: var(--border-width);
@@ -100,28 +98,28 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           right: var(--border-width);
           border-radius: var(--border-width);
         }
-        #hyperborder #hyper .hyper_main .header_header {
+        #hyperborder .hyper_main .header_header {
           top: var(--border-width);
           left: var(--border-width);
           right: var(--border-width);
         }
-        #hyperborder #hyper .hyper_main .header_windowHeader {
+        #hyperborder .hyper_main .header_windowHeader {
           top: var(--border-width);
           left: var(--border-width);
           right: var(--border-width);
           width: calc(100% - var(--border-width) - var(--border-width));
         }
-        #hyperborder #hyper .hyper_main .header_hamburgerMenuLeft {
+        #hyperborder .hyper_main .header_hamburgerMenuLeft {
           top: var(--border-width);
           left: var(--border-width);
         }
-        html.elevated #hyperborder #hyper {
+        html.elevated #hyperborder {
           background: linear-gradient(var(--border-angle), var(--admin-colors));
         }
-        html.blurred #hyperborder #hyper {
+        html.blurred #hyperborder {
           background: linear-gradient(var(--border-angle), var(--blurred-colors));
         }
-        html.blurred.elevated #hyperborder #hyper {
+        html.blurred.elevated #hyperborder {
           background: linear-gradient(var(--border-angle), var(--blurred-admin-colors));
         }
         `)
