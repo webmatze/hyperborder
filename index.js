@@ -47,7 +47,8 @@ module.exports.decorateConfig = config => {
 
   return Object.assign({}, config, {
     css: `
-      html {
+      ${config.css || ''}
+      {
         --border-width: ${configObj.borderWidth};
         --border-angle: ${configObj.animate ? '269deg' : configObj.borderAngle};
         --background-color: ${config.backgroundColor || '#000'};
@@ -56,32 +57,13 @@ module.exports.decorateConfig = config => {
         --admin-colors: ${getBorderColors(configObj.adminBorderColors).join(',')};
         --blurred-colors: ${getBorderColors(configObj.blurredColors).join(',')};
         --blurred-admin-colors: ${getBorderColors(configObj.blurredAdminColors).join(',')};
-      }
-      html {
-        height: 100%;
         background: linear-gradient(var(--border-angle), var(--border-colors));
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: fixed;
         border-radius: var(--border-width);
-        overflow: hidden;
-      }
-      html.elevated {
-        background: linear-gradient(var(--border-angle), var(--admin-colors));
-      }
-      html.blurred {
-        background: linear-gradient(var(--border-angle), var(--blurred-colors));
-      }
-      html.blurred.elevated {
-        background: linear-gradient(var(--border-angle), var(--blurred-admin-colors));
-      }
-      body {
-        position: absolute;
-        top: var(--border-width);
-        bottom: var(--border-width);
-        left: var(--border-width);
-        right: var(--border-width);
-        border-radius: var(--border-width);
-      }
-      ${config.css || ''}
-      #mount {
       }
       .hyper_main {
         background-color: var(--background-color);
@@ -89,34 +71,35 @@ module.exports.decorateConfig = config => {
         bottom: var(--border-width);
         left: var(--border-width);
         right: var(--border-width);
-        border-width: 0px;
+        border-radius: var(--border-width);
       }
       .hyper_main .header_header {
         top: var(--border-width);
         left: var(--border-width);
         right: var(--border-width);
       }
-      .hyper_main .tabs_list {
-        border-bottom-color: var(--border-color);
-        border-top-left-radius: var(--border-width);
-        border-top-right-radius: var(--border-width);
-      }
-      .hyper_main .tab_tab:last-child {
-        border-top-right-radius: var(--border-width);
-      }
-      .hyper_main .terms_terms {
-        border-radius: 0 0 var(--border-width) var(--border-width);
-        bottom: var(--border-width);
+      .hyper_main .header_windowHeader {
+        top: var(--border-width);
         left: var(--border-width);
         right: var(--border-width);
+        width: calc(100% - var(--border-width) - var(--border-width)); 
       }
-      .hyper_main .terms_term {
-        margin-top: var(--border-width);
+      .hyper_main .header_hamburgerMenuLeft {
+        top: var(--border-width);
+        left: var(--border-width);        
       }
-      .header_windowHeaderWithBorder {
-        left: var(--border-width);
-        width: calc(100% - var(--border-width) - var(--border-width));
+      // blurred is not working for now
+      /*
+      .elevated {
+        background: linear-gradient(var(--border-angle), var(--admin-colors));
       }
+      .blurred {
+        background: linear-gradient(var(--border-angle), var(--blurred-colors));
+      }
+      .blurred.elevated {
+        background: linear-gradient(var(--border-angle), var(--blurred-admin-colors));
+      }
+      */
     `
   });
 };
