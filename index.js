@@ -7,16 +7,17 @@ let unloadAnimator = null;
 
 module.exports.onRendererWindow = async window => {
   const browserWindow = remote.getCurrentWindow();
+  const htmlElement = window.document.documentElement;
 
-  browserWindow.on('blur', () => window.document.documentElement.classList.add('blurred'));
-  browserWindow.on('focus', () => window.document.documentElement.classList.remove('blurred'));
+  browserWindow.on('blur', () => htmlElement.classList.add('blurred'));
+  browserWindow.on('focus', () => htmlElement.classList.remove('blurred'));
 
   if (!browserWindow.isFocused()) {
-    window.document.documentElement.classList.add('blurred');
+    htmlElement.classList.add('blurred');
   }
 
   if (await isElevated()) {
-    window.document.documentElement.classList.add('elevated');
+    htmlElement.classList.add('elevated');
   }
 
   const config = window.config.getConfig();
@@ -32,74 +33,99 @@ module.exports.onUnload = async () => {
   }
 };
 
-module.exports.decorateConfig = config => {
+module.exports.reduceUI = (state, {type, config}) => {
   const defaultColors = ['#fc1da7', '#fba506'];
+  switch (type) {
+    case 'CONFIG_LOAD':
+    case 'CONFIG_RELOAD':
+      return state.set('hyperBorder', Object.assign({
+        animate: false,
+        backgroundColor: config.backgroundColor,
+        borderWidth: '4px',
+        borderColors: defaultColors,
+        adminBorderColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
+        blurredAdminColors: (config.hyperBorder && (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors)) || defaultColors,
+        blurredColors: defaultColors,
+        borderAngle: '180deg'
+      }, config.hyperBorder));
+    default:
+      return state;
+  }
+};
 
-  const configObj = Object.assign({
-    animate: false,
-    borderWidth: '4px',
-    borderColors: defaultColors,
-    adminBorderColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
-    blurredAdminColors: (config.hyperBorder && (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors)) || defaultColors,
-    blurredColors: defaultColors,
-    borderAngle: '180deg'
-  }, config.hyperBorder);
+module.exports.mapHyperState = ({ui: {hyperBorder}}, map) => Object.assign({}, map, {
+  hyperBorder: Object.assign({}, hyperBorder)
+});
 
-  return Object.assign({}, config, {
-    css: `
-      ${config.css || ''}
-      {
-        --border-width: ${configObj.borderWidth};
-        --border-angle: ${configObj.animate ? '269deg' : configObj.borderAngle};
-        --background-color: ${config.backgroundColor || '#000'};
-        --border-color: ${config.borderColor};
-        --border-colors: ${getBorderColors(configObj.borderColors).join(',')};
-        --admin-colors: ${getBorderColors(configObj.adminBorderColors).join(',')};
-        --blurred-colors: ${getBorderColors(configObj.blurredColors).join(',')};
-        --blurred-admin-colors: ${getBorderColors(configObj.blurredAdminColors).join(',')};
-        background: linear-gradient(var(--border-angle), var(--border-colors));
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        position: fixed;
-        border-radius: var(--border-width);
-      }
-      .hyper_main {
-        background-color: var(--background-color);
-        top: var(--border-width);
-        bottom: var(--border-width);
-        left: var(--border-width);
-        right: var(--border-width);
-        border-radius: var(--border-width);
-      }
-      .hyper_main .header_header {
-        top: var(--border-width);
-        left: var(--border-width);
-        right: var(--border-width);
-      }
-      .hyper_main .header_windowHeader {
-        top: var(--border-width);
-        left: var(--border-width);
-        right: var(--border-width);
-        width: calc(100% - var(--border-width) - var(--border-width)); 
-      }
-      .hyper_main .header_hamburgerMenuLeft {
-        top: var(--border-width);
-        left: var(--border-width);        
-      }
-      // blurred is not working for now
-      /*
-      .elevated {
-        background: linear-gradient(var(--border-angle), var(--admin-colors));
-      }
-      .blurred {
-        background: linear-gradient(var(--border-angle), var(--blurred-colors));
-      }
-      .blurred.elevated {
-        background: linear-gradient(var(--border-angle), var(--blurred-admin-colors));
-      }
-      */
-    `
-  });
+module.exports.decorateHyper = (Hyper, {React}) => {
+  return class extends React.Component {
+    constructor(props) {
+      super(props);
+      this.initializeAnimator();
+    }
+
+    initializeAnimator() {
+      // TODO init Animator here
+    }
+
+    render() {
+      return React.createElement('div', {
+        id: 'hyperborder'
+      }, [
+        React.createElement(Hyper, this.props),
+        React.createElement('style', {}, `
+        #hyperborder {
+          --border-width: ${this.props.hyperBorder.borderWidth};
+          ${this.props.hyperBorder.animate ? '' : '--border-angle: ' + this.props.hyperBorder.borderAngle + ';'}
+          --background-color: ${this.props.hyperBorder.backgroundColor || '#000'};
+          --border-colors: ${getBorderColors(this.props.hyperBorder.borderColors).join(',')};
+          --admin-colors: ${getBorderColors(this.props.hyperBorder.adminBorderColors).join(',')};
+          --blurred-colors: ${getBorderColors(this.props.hyperBorder.blurredColors).join(',')};
+          --blurred-admin-colors: ${getBorderColors(this.props.hyperBorder.blurredAdminColors).join(',')};
+        }
+        #hyperborder #hyper {
+          background: linear-gradient(var(--border-angle), var(--border-colors));
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          position: fixed;
+          border-radius: var(--border-width);
+        }
+        #hyperborder #hyper .hyper_main {
+          background-color: var(--background-color);
+          top: var(--border-width);
+          bottom: var(--border-width);
+          left: var(--border-width);
+          right: var(--border-width);
+          border-radius: var(--border-width);
+        }
+        #hyperborder #hyper .hyper_main .header_header {
+          top: var(--border-width);
+          left: var(--border-width);
+          right: var(--border-width);
+        }
+        #hyperborder #hyper .hyper_main .header_windowHeader {
+          top: var(--border-width);
+          left: var(--border-width);
+          right: var(--border-width);
+          width: calc(100% - var(--border-width) - var(--border-width));
+        }
+        #hyperborder #hyper .hyper_main .header_hamburgerMenuLeft {
+          top: var(--border-width);
+          left: var(--border-width);
+        }
+        html.elevated #hyperborder #hyper {
+          background: linear-gradient(var(--border-angle), var(--admin-colors));
+        }
+        html.blurred #hyperborder #hyper {
+          background: linear-gradient(var(--border-angle), var(--blurred-colors));
+        }
+        html.blurred.elevated #hyperborder #hyper {
+          background: linear-gradient(var(--border-angle), var(--blurred-admin-colors));
+        }
+        `)
+      ]);
+    }
+  };
 };
