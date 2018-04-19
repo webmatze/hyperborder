@@ -42,6 +42,7 @@ module.exports.reduceUI = (state, {type, config}) => {
         animate: false,
         backgroundColor: config.backgroundColor,
         borderWidth: '4px',
+        borderRadius: '4px',
         borderColors: defaultColors,
         adminBorderColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
         blurredAdminColors: (config.hyperBorder && (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors)) || defaultColors,
@@ -76,6 +77,7 @@ module.exports.decorateHyper = (Hyper, {React}) => {
         React.createElement('style', {}, `
         #hyperborder {
           --border-width: ${this.props.hyperBorder.borderWidth};
+          --border-radius: ${this.props.hyperBorder.borderRadius};
           ${this.props.hyperBorder.animate ? '' : '--border-angle: ' + this.props.hyperBorder.borderAngle + ';'}
           --background-color: ${this.props.hyperBorder.backgroundColor || '#000'};
           --border-colors: ${getBorderColors(this.props.hyperBorder.borderColors).join(',')};
@@ -88,7 +90,7 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           left: 0;
           right: 0;
           position: fixed;
-          border-radius: var(--border-width);
+          border-radius: var(--border-radius);
         }
         #hyperborder .hyper_main {
           background-color: var(--background-color);
@@ -96,7 +98,7 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           bottom: var(--border-width);
           left: var(--border-width);
           right: var(--border-width);
-          border-radius: var(--border-width);
+          border-radius: var(--border-radius);
         }
         #hyperborder .hyper_main .header_header {
           top: var(--border-width);
