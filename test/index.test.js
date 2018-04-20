@@ -3,19 +3,6 @@ const {oneLine} = require('common-tags');
 const {createMockElectron, createMockWindow, createMockBrowserWindow} = require('./helpers');
 const proxyquire = require('proxyquire').noCallThru();
 
-// --- decorateConfig() ---
-
-test(oneLine`
-  decorateConfig() doesn't throw when there isn't
-  a hyperBorder config section`,
-  t => {
-    const {decorateConfig} = proxyquire('../index', {
-      electron: {}
-    });
-    t.notThrows(() => decorateConfig({}));
-  }
-);
-
 // --- onRendererWindow() ---
 
 test(oneLine`
