@@ -47,7 +47,7 @@ module.exports.reduceUI = (state, {type, config}) => {
         borderColors: defaultColors,
         adminBorderColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
         blurredAdminColors: (config.hyperBorder && (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors)) || defaultColors,
-        blurredColors: defaultColors,
+        blurredColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
         borderAngle: '180deg'
       }, config.hyperBorder));
     default:
