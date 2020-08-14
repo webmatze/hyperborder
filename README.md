@@ -84,7 +84,7 @@ module.exports = {
 }
 ```
 
-To change the speed of animation, specify an object with a `duration` property:
+To change the speed of animation, specify an object with a `duration` property in milliseconds:
 
 ```javascript
 module.exports = {
@@ -92,7 +92,7 @@ module.exports = {
     ...
     hyperBorder: {
       animate: {
-        duration: '1s',  // default is 16s
+        duration: '1000',  // default is 18000
       },
       ...
     }
