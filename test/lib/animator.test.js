@@ -7,6 +7,14 @@ test('createAnimator() returns an unload function', t => {
     isFocused: () => true
   });
   const classList = new Set();
-  const animatorUnloadFunction = createAnimator(createMockWindow(classList), mockBrowserWindow);
+  const mockWindow = createMockWindow(classList);
+  mockWindow.config.getConfig = () => ({
+    hyperBorder: {
+      animate: {
+        duration: 1000
+      }
+    }
+  });
+  const animatorUnloadFunction = createAnimator(mockWindow, mockBrowserWindow);
   t.true(animatorUnloadFunction instanceof Function);
 });
