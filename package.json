@@ -15,7 +15,8 @@
   },
   "scripts": {
     "test": "npm run -s lint && ava 'test/**/*.test.js'",
-    "lint": "eslint '**/*.js'"
+    "lint": "eslint '**/*.js'",
+    "postversion": "git push && git push --tags"
   },
   "devDependencies": {
     "ava": "^3.11.0",
