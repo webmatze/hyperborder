@@ -1,13 +1,10 @@
 const test = require('ava');
-const {oneLine} = require('common-tags');
 const {createMockElectron, createMockWindow, createMockBrowserWindow} = require('./helpers');
 const proxyquire = require('proxyquire').noCallThru();
 
 // --- onRendererWindow() ---
 
-test(oneLine`
-  onRendererWindow() doesn't add "blurred" class when the window
-  is initially focused`,
+test('onRendererWindow() doesn\'t add "blurred" class when the window is initially focused',
   async t => {
     const mockBrowserWindow = {
       isFocused: () => true
@@ -24,9 +21,7 @@ test(oneLine`
   }
 );
 
-test(oneLine`
-  onRendererWindow() adds "blurred" class when the window
-  is not initially focused`,
+test('onRendererWindow() adds "blurred" class when the window is not initially focused',
   async t => {
     const mockBrowserWindow = {
       isFocused: () => false
@@ -43,9 +38,7 @@ test(oneLine`
   }
 );
 
-test(oneLine`
-  onRendererWindow() doesn't add "elevated" class when hyper is
-  not opened by admin/root`,
+test('onRendererWindow() doesn\'t add "elevated" class when hyper is not opened by admin/root',
   async t => {
     const {onRendererWindow} = proxyquire('../index', {
       electron: createMockElectron(),
@@ -59,9 +52,7 @@ test(oneLine`
   }
 );
 
-test(oneLine`
-  onRendererWindow() adds "elevated" class when hyper is
-  opened by admin/root`,
+test('onRendererWindow() adds "elevated" class when hyper is opened by admin/root',
   async t => {
     const {onRendererWindow} = proxyquire('../index', {
       electron: createMockElectron(),
@@ -75,8 +66,7 @@ test(oneLine`
   }
 );
 
-test(
-  'onRendererWindow() adds "blurred" class when window loses focus',
+test('onRendererWindow() adds "blurred" class when window loses focus',
   async t => {
     const mockBrowserWindow = createMockBrowserWindow({
       isFocused: () => true
@@ -94,8 +84,7 @@ test(
   }
 );
 
-test(
-  'onRendererWindow() removes "blurred" class when window gains focus',
+test('onRendererWindow() removes "blurred" class when window gains focus',
   async t => {
     const mockBrowserWindow = createMockBrowserWindow({
       isFocused: () => false

@@ -1,14 +1,11 @@
 const test = require('ava');
-const {oneLine} = require('common-tags');
 const {getBorderColors} = require('../../lib/colorhelpers');
 
 test('getBorderColors() returns an array when a single color is given', t => {
   t.true(Array.isArray(getBorderColors('#FFF')));
 });
 
-test(oneLine`
-  the second color given by getBorderColors() is the same
-  as the first when an individual color is given`,
+test('the second color given by getBorderColors() is the same as the first when an individual color is given',
   t => {
     const color = '#FFF';
     const colors = getBorderColors(color);
