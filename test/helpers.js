@@ -1,44 +1,42 @@
 module.exports.createMockWindow = function (classList) {
   classList.remove = classList.delete;
-  return {
+  let focus = true;
+  const window = {
     document: {
       documentElement: {
         classList
-      }
+      },
+      hasFocus: () => focus
     },
     config: {
       getConfig: () => ({})
     },
-    setInterval: () => ({})
-  };
-};
-
-const createMockBrowserWindow = function (browserWindow) {
-  const newBrowserWindow = Object.assign({
-    isFocused: () => {},
-    on: (event, cb) => {
+    blur: () => {
+      focus = false;
+    },
+    focus: () => {
+      focus = true;
+    },
+    addEventListener: (event, cb) => {
       switch (event) {
         case 'blur':
-          newBrowserWindow.blur = cb;
+          window.blur = () => {
+            focus = false;
+            cb();
+          };
           break;
         case 'focus':
-          newBrowserWindow.focus = cb;
+          window.focus = () => {
+            focus = true;
+            cb();
+          };
           break;
         default:
           break;
       }
-    }
-  }, browserWindow);
-
-  return newBrowserWindow;
-};
-module.exports.createMockBrowserWindow = createMockBrowserWindow;
-
-module.exports.createMockElectron = function (browserWindow) {
-  browserWindow = createMockBrowserWindow(browserWindow);
-  return {
-    remote: {
-      getCurrentWindow: () => browserWindow
-    }
+    },
+    setInterval: () => ({})
   };
+  return window;
 };
+

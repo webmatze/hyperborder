@@ -1,11 +1,8 @@
 const test = require('ava');
 const {createAnimator} = require('../../lib/animator');
-const {createMockWindow, createMockBrowserWindow} = require('../helpers');
+const {createMockWindow} = require('../helpers');
 
 test('createAnimator() returns an unload function', t => {
-  const mockBrowserWindow = createMockBrowserWindow({
-    isFocused: () => true
-  });
   const classList = new Set();
   const mockWindow = createMockWindow(classList);
   mockWindow.config.getConfig = () => ({
@@ -15,6 +12,6 @@ test('createAnimator() returns an unload function', t => {
       }
     }
   });
-  const animatorUnloadFunction = createAnimator(mockWindow, mockBrowserWindow);
+  const animatorUnloadFunction = createAnimator(mockWindow);
   t.true(animatorUnloadFunction instanceof Function);
 });

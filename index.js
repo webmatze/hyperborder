@@ -1,4 +1,3 @@
-const {remote} = require('electron');
 const isElevated = require('is-elevated');
 const {createAnimator} = require('./lib/animator');
 const {getBorderColors} = require('./lib/colorhelpers');
@@ -6,13 +5,12 @@ const {getBorderColors} = require('./lib/colorhelpers');
 let unloadAnimator = null;
 
 module.exports.onRendererWindow = async window => {
-  const browserWindow = remote.getCurrentWindow();
   const htmlElement = window.document.documentElement;
 
-  browserWindow.on('blur', () => htmlElement.classList.add('blurred'));
-  browserWindow.on('focus', () => htmlElement.classList.remove('blurred'));
+  window.addEventListener('blur', () => htmlElement.classList.add('blurred'));
+  window.addEventListener('focus', () => htmlElement.classList.remove('blurred'));
 
-  if (!browserWindow.isFocused()) {
+  if (!window.document.hasFocus()) {
     htmlElement.classList.add('blurred');
   }
 
@@ -23,7 +21,7 @@ module.exports.onRendererWindow = async window => {
   const config = window.config.getConfig();
 
   if (config.hyperBorder && config.hyperBorder.animate) {
-    unloadAnimator = createAnimator(window, browserWindow);
+    unloadAnimator = createAnimator(window);
   }
 };
 
