@@ -90,7 +90,6 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           --border-width: ${this.props.hyperBorder.borderWidth};
           --border-radius-inner: ${this.props.hyperBorder.borderRadiusInner};
           --border-radius-outer: ${this.props.hyperBorder.borderRadiusOuter};
-          ${this.props.hyperBorder.animate ? '' : '--border-angle: ' + this.props.hyperBorder.borderAngle + ';'}
           --background-color: ${this.props.hyperBorder.backgroundColor || '#000'};
           --border-colors-one: ${getBorderColors(this.props.hyperBorder.borderColors)[0]};
           --border-colors-two: ${getBorderColors(this.props.hyperBorder.borderColors)[1]};
