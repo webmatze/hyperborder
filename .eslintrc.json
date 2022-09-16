@@ -21,6 +21,7 @@
     "semi": ["error", "always"],
     "no-var": "error",
     "prefer-const": "error",
-    "space-in-parens": ["error", "never"]
+    "space-in-parens": ["error", "never"],
+    "comma-dangle": ["error", "only-multiline"]
   }
 }
