@@ -11,25 +11,27 @@ module.exports.createMockWindow = function (classList) {
     config: {
       getConfig: () => ({})
     },
-    blur: () => {
+    blur() {
       focus = false;
     },
-    focus: () => {
+    focus() {
       focus = true;
     },
-    addEventListener: (event, cb) => {
+    addEventListener(event, cb) {
       switch (event) {
         case 'blur':
           window.blur = () => {
             focus = false;
             cb();
           };
+
           break;
         case 'focus':
           window.focus = () => {
             focus = true;
             cb();
           };
+
           break;
         default:
           break;

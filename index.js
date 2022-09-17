@@ -21,8 +21,7 @@ module.exports.reduceUI = (state, {type, config}) => {
   switch (type) {
     case 'CONFIG_LOAD':
     case 'CONFIG_RELOAD':
-      return state.set('hyperBorder', Object.assign({
-        animate: false,
+      return state.set('hyperBorder', {animate: false,
         animateDuration: config.hyperBorder.animate.duration || '10s',
         backgroundColor: config.backgroundColor,
         borderWidth: '4px',
@@ -32,60 +31,56 @@ module.exports.reduceUI = (state, {type, config}) => {
         adminBorderColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
         blurredAdminColors: (config.hyperBorder && (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors)) || defaultColors,
         blurredColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
-        borderAngle: '180deg'
-      }, config.hyperBorder));
+        borderAngle: '180deg', ...config.hyperBorder});
     default:
       return state;
   }
 };
 
-module.exports.mapHyperState = ({ui: {hyperBorder}}, map) => Object.assign({}, map, {
-  hyperBorder: Object.assign({}, hyperBorder)
-});
+module.exports.mapHyperState = ({ui: {hyperBorder}}, map) => ({...map, hyperBorder: {...hyperBorder}});
 
-module.exports.decorateHyper = (Hyper, {React}) => {
-  return class extends React.Component {
-    render() {
-      return React.createElement('div', {
-        id: 'hyperborder'
+module.exports.decorateHyper = (Hyper, {React}) => class extends React.Component {
+  render() {
+    return React.createElement('div', {
+      id: 'hyperborder'
+    }, [
+      React.createElement(Hyper, this.props),
+      React.createElement('svg', {
+        id: 'hyperborder-template',
+        width: 0,
+        height: 0,
       }, [
-        React.createElement(Hyper, this.props),
-        React.createElement('svg', {
-          id: 'hyperborder-template',
-          width: 0,
-          height: 0,
+        React.createElement('linearGradient', {
+          id: 'hyperborder-gradient',
+          gradientTransform: 'rotate(90)',
         }, [
-          React.createElement('linearGradient', {
-            id: 'hyperborder-gradient',
-            gradientTransform: 'rotate(90)',
-          }, [
-            React.createElement('stop', {offset: '0%'}),
-            React.createElement('stop', {offset: '100%'}),
-            this.props.hyperBorder.animate ? React.createElement('animateTransform', {
-              attributeName: 'gradientTransform',
-              type: 'rotate',
-              from: '0 .5 .5',
-              to: '360 .5 .5',
-              dur: this.props.hyperBorder.animateDuration,
-              repeatCount: 'indefinite',
-            }) : null,
-          ]),
-          React.createElement('symbol', {
-            id: 'hyperborder-border',
-            overflow: 'visible',
-          }, [
-            React.createElement('rect', {
-              width: '100%',
-              height: '100%',
-              rx: this.props.hyperBorder.borderRadiusOuter,
-              ry: this.props.hyperBorder.borderRadiusOuter,
-            }),
-          ]),
+          React.createElement('stop', {offset: '0%'}),
+          React.createElement('stop', {offset: '100%'}),
+          this.props.hyperBorder.animate ? React.createElement('animateTransform', {
+            attributeName: 'gradientTransform',
+            type: 'rotate',
+            from: '0 .5 .5',
+            to: '360 .5 .5',
+            dur: this.props.hyperBorder.animateDuration,
+            repeatCount: 'indefinite',
+          }) : null,
         ]),
-        React.createElement('svg', {id: 'hyperborder-svg'}, [
-          React.createElement('use', {href: '#hyperborder-border'}),
+        React.createElement('symbol', {
+          id: 'hyperborder-border',
+          overflow: 'visible',
+        }, [
+          React.createElement('rect', {
+            width: '100%',
+            height: '100%',
+            rx: this.props.hyperBorder.borderRadiusOuter,
+            ry: this.props.hyperBorder.borderRadiusOuter,
+          }),
         ]),
-        React.createElement('style', {}, `
+      ]),
+      React.createElement('svg', {id: 'hyperborder-svg'}, [
+        React.createElement('use', {href: '#hyperborder-border'}),
+      ]),
+      React.createElement('style', {}, `
         #hyperborder {
           --border-width: ${this.props.hyperBorder.borderWidth};
           --border-radius-inner: ${this.props.hyperBorder.borderRadiusInner};
@@ -171,7 +166,6 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           --stop-two-color: var(--blurred-admin-colors-two);
         }
         `)
-      ]);
-    }
-  };
+    ]);
+  }
 };

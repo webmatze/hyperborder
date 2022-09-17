@@ -15,14 +15,14 @@
   },
   "scripts": {
     "test": "npm run -s lint && ava 'test/**/*.test.js'",
-    "lint": "eslint '**/*.js'",
+    "lint": "eslint --fix '**/*.js'",
     "postversion": "git push && git push --tags"
   },
   "devDependencies": {
     "ava": "^3.11.0",
     "common-tags": "^1.4.0",
-    "eslint": "^4.10.0",
-    "eslint-config-xo-space": "^0.17.0",
+    "eslint": "^8.14.0",
+    "eslint-config-xo-space": "^0.33.0",
     "proxyquire": "^1.8.0"
   }
 }
