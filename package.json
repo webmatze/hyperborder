@@ -19,7 +19,7 @@
     "postversion": "git push && git push --tags"
   },
   "devDependencies": {
-    "ava": "^3.11.0",
+    "ava": "^4.3.3",
     "common-tags": "^1.4.0",
     "eslint": "^8.14.0",
     "eslint-config-xo-space": "^0.33.0",
