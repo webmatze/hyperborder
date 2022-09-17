@@ -1,8 +1,5 @@
 const isElevated = require('is-elevated');
-const {createAnimator} = require('./lib/animator');
 const {getBorderColors} = require('./lib/colorhelpers');
-
-let unloadAnimator = null;
 
 module.exports.onRendererWindow = async window => {
   const htmlElement = window.document.documentElement;
@@ -17,18 +14,6 @@ module.exports.onRendererWindow = async window => {
   if (await isElevated()) {
     htmlElement.classList.add('elevated');
   }
-
-  const config = window.config.getConfig();
-
-  if (config.hyperBorder && config.hyperBorder.animate) {
-    unloadAnimator = createAnimator(window);
-  }
-};
-
-module.exports.onUnload = async () => {
-  if (unloadAnimator) {
-    unloadAnimator();
-  }
 };
 
 module.exports.reduceUI = (state, {type, config}) => {
@@ -38,10 +23,11 @@ module.exports.reduceUI = (state, {type, config}) => {
     case 'CONFIG_RELOAD':
       return state.set('hyperBorder', Object.assign({
         animate: false,
+        animateDuration: config.hyperBorder.animate.duration || '10s',
         backgroundColor: config.backgroundColor,
         borderWidth: '4px',
         borderRadiusInner: '4px',
-        borderRadiusOuter: '0',
+        borderRadiusOuter: '16px',
         borderColors: defaultColors,
         adminBorderColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
         blurredAdminColors: (config.hyperBorder && (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors)) || defaultColors,
@@ -59,45 +45,102 @@ module.exports.mapHyperState = ({ui: {hyperBorder}}, map) => Object.assign({}, m
 
 module.exports.decorateHyper = (Hyper, {React}) => {
   return class extends React.Component {
-    constructor(props) {
-      super(props);
-      this.initializeAnimator();
-    }
-
-    initializeAnimator() {
-      // TODO init Animator here
-    }
-
     render() {
       return React.createElement('div', {
         id: 'hyperborder'
       }, [
         React.createElement(Hyper, this.props),
+        React.createElement('svg', {
+          id: 'hyperborder-template',
+          width: 0,
+          height: 0,
+        }, [
+          React.createElement('linearGradient', {
+            id: 'hyperborder-gradient',
+            gradientTransform: 'rotate(90)',
+          }, [
+            React.createElement('stop', {offset: '0%'}),
+            React.createElement('stop', {offset: '100%'}),
+            this.props.hyperBorder.animate ? React.createElement('animateTransform', {
+              attributeName: 'gradientTransform',
+              type: 'rotate',
+              from: '0 .5 .5',
+              to: '360 .5 .5',
+              dur: this.props.hyperBorder.animateDuration,
+              repeatCount: 'indefinite',
+            }) : null,
+          ]),
+          React.createElement('symbol', {
+            id: 'hyperborder-border',
+            overflow: 'visible',
+          }, [
+            React.createElement('rect', {
+              width: '100%',
+              height: '100%',
+              rx: this.props.hyperBorder.borderRadiusOuter,
+              ry: this.props.hyperBorder.borderRadiusOuter,
+            }),
+          ]),
+        ]),
+        React.createElement('svg', {id: 'hyperborder-svg'}, [
+          React.createElement('use', {href: '#hyperborder-border'}),
+        ]),
         React.createElement('style', {}, `
         #hyperborder {
           --border-width: ${this.props.hyperBorder.borderWidth};
           --border-radius-inner: ${this.props.hyperBorder.borderRadiusInner};
           --border-radius-outer: ${this.props.hyperBorder.borderRadiusOuter};
-          ${this.props.hyperBorder.animate ? '' : '--border-angle: ' + this.props.hyperBorder.borderAngle + ';'}
           --background-color: ${this.props.hyperBorder.backgroundColor || '#000'};
-          --border-colors: ${getBorderColors(this.props.hyperBorder.borderColors).join(',')};
-          --admin-colors: ${getBorderColors(this.props.hyperBorder.adminBorderColors).join(',')};
-          --blurred-colors: ${getBorderColors(this.props.hyperBorder.blurredColors).join(',')};
-          --blurred-admin-colors: ${getBorderColors(this.props.hyperBorder.blurredAdminColors).join(',')};
-          background: linear-gradient(var(--border-angle), var(--border-colors));
-          top: 0;
+          --border-colors-one: ${getBorderColors(this.props.hyperBorder.borderColors)[0]};
+          --border-colors-two: ${getBorderColors(this.props.hyperBorder.borderColors)[1]};
+          --admin-colors-one: ${getBorderColors(this.props.hyperBorder.adminBorderColors)[0]};
+          --admin-colors-two: ${getBorderColors(this.props.hyperBorder.adminBorderColors)[1]};
+          --blurred-colors-one: ${getBorderColors(this.props.hyperBorder.blurredColors)[0]};
+          --blurred-colors-two: ${getBorderColors(this.props.hyperBorder.blurredColors)[1]};
+          --blurred-admin-colors-one: ${getBorderColors(this.props.hyperBorder.blurredAdminColors)[0]};
+          --blurred-admin-colors-two: ${getBorderColors(this.props.hyperBorder.blurredAdminColors)[1]};
+          --stop-one-color: var(--border-colors-one, #fc1da7);
+          --stop-two-color: var(--border-colors-two, #fba506);
+          
+          border-radius: var(--border-radius-outer);
+          top: 0; 
           bottom: 0;
           left: 0;
           right: 0;
           position: fixed;
-          border-radius: var(--border-radius-outer);
+        }
+        #hyperborder-svg {
+          z-index: 99;
+          width: 100%;
+          height: 100%;
+        }
+        #hyperborder-template {
+          position: absolute;
+          width: 0;
+          height: 0;
+        }
+        #hyperborder-border {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          fill: none;
+          stroke: url(#hyperborder-gradient);
+          stroke-width: var(--border-width);
+        }
+        #hyperborder-gradient stop:nth-child(1) {
+          stop-color: var(--stop-one-color);
+        }
+        #hyperborder-gradient stop:nth-child(2) {
+          stop-color: var(--stop-two-color);
         }
         #hyperborder .hyper_main {
           background-color: var(--background-color);
-          top: var(--border-width);
-          bottom: var(--border-width);
-          left: var(--border-width);
-          right: var(--border-width);
+          top: calc(var(--border-width) / 2);
+          bottom: calc(var(--border-width) / 2);
+          left: calc(var(--border-width) / 2);
+          right: calc(var(--border-width) / 2);
           border-radius: var(--border-radius-inner);
         }
         #hyperborder .hyper_main .header_header {
@@ -115,14 +158,17 @@ module.exports.decorateHyper = (Hyper, {React}) => {
           top: var(--border-width);
           left: var(--border-width);
         }
-        html.elevated #hyperborder {
-          background: linear-gradient(var(--border-angle), var(--admin-colors));
-        }
         html.blurred #hyperborder {
-          background: linear-gradient(var(--border-angle), var(--blurred-colors));
+          --stop-one-color: var(--blurred-colors-one);
+          --stop-two-color: var(--blurred-colors-two);
+        }
+        html.elevated #hyperborder {
+          --stop-one-color: var(--admin-colors-one);
+          --stop-two-color: var(--admin-colors-two);
         }
         html.blurred.elevated #hyperborder {
-          background: linear-gradient(var(--border-angle), var(--blurred-admin-colors));
+          --stop-one-color: var(--blurred-admin-colors-one);
+          --stop-two-color: var(--blurred-admin-colors-two);
         }
         `)
       ]);
