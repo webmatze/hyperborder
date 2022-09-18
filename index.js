@@ -21,17 +21,17 @@ module.exports.reduceUI = (state, {type, config}) => {
   switch (type) {
     case 'CONFIG_LOAD':
     case 'CONFIG_RELOAD':
+      config.hyperBorder = {animate: true, ...config.hyperBorder};
       return state.set('hyperBorder', {animate: false,
         animateDuration: config.hyperBorder.animate.duration || '10s',
         backgroundColor: config.backgroundColor,
-        borderWidth: '4px',
-        borderRadiusInner: '4px',
+        borderWidth: '8px',
+        borderRadiusInner: '8px',
         borderRadiusOuter: '16px',
         borderColors: defaultColors,
-        adminBorderColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
-        blurredAdminColors: (config.hyperBorder && (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors)) || defaultColors,
-        blurredColors: (config.hyperBorder && config.hyperBorder.borderColors) || defaultColors,
-        borderAngle: '180deg', ...config.hyperBorder});
+        adminBorderColors: config.hyperBorder.borderColors || defaultColors,
+        blurredAdminColors: (config.hyperBorder.blurredColors || config.hyperBorder.adminBorderColors) || defaultColors,
+        blurredColors: config.hyperBorder.borderColors || defaultColors, ...config.hyperBorder});
     default:
       return state;
   }
