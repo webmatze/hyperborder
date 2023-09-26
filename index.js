@@ -137,6 +137,7 @@ module.exports.decorateHyper = (Hyper, {React}) => class extends React.Component
           left: calc(var(--border-width) / 2);
           right: calc(var(--border-width) / 2);
           border-radius: var(--border-radius-inner);
+          overflow: hidden;
         }
         #hyperborder .hyper_main .header_header {
           top: var(--border-width);
